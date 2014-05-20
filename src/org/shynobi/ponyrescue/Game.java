@@ -24,6 +24,7 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 /**
@@ -33,25 +34,27 @@ import com.jme3.scene.shape.Box;
 public class Game extends SimpleApplication {
 
     @Override
-    public void simpleInitApp() {
+    public void simpleInitApp() {/*
         Material groundMaterial = new Material(assetManager, 
         "Common/MatDefs/Misc/Unshaded.j3md");
         groundMaterial.setColor("Color", ColorRGBA.Green);
         
         Material towerMaterial = new Material(assetManager, 
         "Common/MatDefs/Misc/Unshaded.j3md");
-        towerMaterial.setColor("Color", ColorRGBA.Orange);
+        //towerMaterial.setColor("Color", ColorRGBA.Orange);
         
         Geometry ground = new Geometry("Ground",new Box(10,0.1f,10));
         ground.setMaterial(groundMaterial);
         rootNode.attachChild(ground);
-        
-        Geometry tower = new Geometry("Tower",new Box(1,4,1));
-        tower.setMaterial(towerMaterial);
+        */
+        Spatial tower = assetManager.loadModel("Scenes/Main.j3o");
+        //Geometry tower = new Geometry("Tower",new Box(1,4,1));
+        //tower.setMaterial(towerMaterial);
         rootNode.attachChild(tower);
         
-        cam.setLocation(new Vector3f(7,7,7));
+        cam.setLocation(new Vector3f(36,36,36));
         cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
+        flyCam.setMoveSpeed(20);
     }
     
     public static void main(String[] args) {

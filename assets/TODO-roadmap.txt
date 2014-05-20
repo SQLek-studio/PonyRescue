@@ -1,0 +1,41 @@
+List of jobs, also milestones. When we are both online, we must keep
+commit/push shorts. WIP means somepony is working with it in local copy.
+
+Gui for menus.
+    Affetced files:
+        Assets/Textures/Slides/Main
+        Assets/Textures/Slides/Credits
+
+Think about control/user interaction.
+Have any ideas Xinef?
+If we use mouse, then targeting will be simple, but no split screen multi.
+> Proposition for keybord only:
+> A-D rotating camera, W-S selecting target up-down, space or ctrl is action
+> ←-→ rotating camera, ↑-↓ targeting and enter or right ctrl as action
+// in my opinion split-screen will bring extra gameplay and ability to run
+// our game in pony meets.
+# on other hoof using mouse to targeting is more straighforward, also rotating ad firing by mouse is posible.
+# i need Your opinion before i start implementing event handlers.
+
+Tower loading: Partialy done.
+
+Redo tower and all scene in scene editor using simple/small/working models.
+
+Pony loading.
+
+
+//i'm currently working on scene and code. Tomorow we will have more files to parallel working.
+//fell free to experiment with scene editor.
+
+...
+
+...
+
+...
+
+** 22.V - First gameplay working. All major concepts are working.
+ (don't have to work perfectly or good but work at all)
+
+** 24.V - Closed beta in brony comunity, first tests of deplying
+
+** 28.V - Deployed demo, ready to ship.

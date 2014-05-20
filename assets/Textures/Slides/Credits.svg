@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="512"
+   height="512"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="Credits.svg"
+   inkscape:export-filename="/home/piotr/jMonkeyProjects/PonyRescue/assets/Textures/Slides/Credits.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="438.70126"
+     inkscape:cy="314.86832"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1145"
+     inkscape:window-x="-2"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2985"
+       empspacing="4"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       dotted="true" />
+    <inkscape:grid
+       type="xygrid"
+       id="grid2989"
+       empspacing="4"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       color="#d000ff"
+       opacity="0.1254902"
+       empcolor="#ce0028"
+       empopacity="0.25098039"
+       spacingx="64px"
+       spacingy="64px" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-540.36218)">
+    <rect
+       style="fill:#d45500;fill-opacity:1;stroke:none"
+       id="rect3057"
+       width="224"
+       height="496"
+       x="16"
+       y="16"
+       transform="translate(0,540.36218)" />
+    <rect
+       style="fill:#d45500;fill-opacity:1;stroke:none"
+       id="rect3059"
+       width="224"
+       height="496"
+       x="272"
+       y="0"
+       transform="translate(0,540.36218)" />
+    <text
+       xml:space="preserve"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Droid Sans;-inkscape-font-specification:Droid Sans"
+       x="30.304577"
+       y="81.675018"
+       id="text3061"
+       sodipodi:linespacing="125%"
+       transform="translate(0,540.36218)"><tspan
+         sodipodi:role="line"
+         id="tspan3063"
+         x="30.304577"
+         y="81.675018">Licencja</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Droid Sans;-inkscape-font-specification:Droid Sans"
+       x="35.355339"
+       y="149.35524"
+       id="text3065"
+       sodipodi:linespacing="125%"
+       transform="translate(0,540.36218)"><tspan
+         sodipodi:role="line"
+         id="tspan3067"
+         x="35.355339"
+         y="149.35524">nasze</tspan><tspan
+         sodipodi:role="line"
+         x="35.355339"
+         y="219.35524"
+         id="tspan3069">dane</tspan><tspan
+         sodipodi:role="line"
+         x="35.355339"
+         y="289.35522"
+         id="tspan3071">...</tspan><tspan
+         sodipodi:role="line"
+         x="35.355339"
+         y="359.35522"
+         id="tspan3073">...</tspan><tspan
+         sodipodi:role="line"
+         x="35.355339"
+         y="429.35522"
+         id="tspan3075">...</tspan><tspan
+         sodipodi:role="line"
+         x="35.355339"
+         y="499.35522"
+         id="tspan3077">...</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Droid Sans;-inkscape-font-specification:Droid Sans"
+       x="301.02545"
+       y="59.45166"
+       id="text3079"
+       sodipodi:linespacing="125%"
+       transform="translate(0,540.36218)"><tspan
+         sodipodi:role="line"
+         id="tspan3081"
+         x="301.02545"
+         y="59.45166">...</tspan><tspan
+         sodipodi:role="line"
+         x="301.02545"
+         y="129.45166"
+         id="tspan3083">...</tspan><tspan
+         sodipodi:role="line"
+         x="301.02545"
+         y="199.45166"
+         id="tspan3085">...</tspan><tspan
+         sodipodi:role="line"
+         x="301.02545"
+         y="269.45166"
+         id="tspan3087">...</tspan><tspan
+         sodipodi:role="line"
+         x="301.02545"
+         y="339.45166"
+         id="tspan3089">...</tspan><tspan
+         sodipodi:role="line"
+         x="301.02545"
+         y="409.45166"
+         id="tspan3091">i cos</tspan><tspan
+         sodipodi:role="line"
+         x="301.02545"
+         y="479.45166"
+         id="tspan3093">jeszcze</tspan></text>
+  </g>
+</svg>

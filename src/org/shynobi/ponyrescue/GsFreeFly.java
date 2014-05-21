@@ -22,6 +22,9 @@ package org.shynobi.ponyrescue;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
+import java.util.Random;
 
 /** Application state responsible for random background camera movement.
  *
@@ -29,11 +32,40 @@ import com.jme3.app.state.AppStateManager;
  */
 public class GsFreeFly extends AbstractAppState {
     
+    private final static float DEFAULT_HEIGHT = 30;
+    
+    private final Random random = new Random();
+    
+    private GsGame gsGame;
+    
+    private Camera cam;
+    
+    private float angle = 0;
+    private float angleSpeed = 0;
+    private float height = DEFAULT_HEIGHT;
+    
+    @Override
+    public void update(float tpf) {
+        if (!isEnabled())
+            return;
+        
+        float heightDelta = (float)random.nextGaussian();
+        height = (DEFAULT_HEIGHT
+                + height*(8-tpf)
+                + heightDelta*(tpf+1))/10;
+        
+        cam.setLocation(new Vector3f(36,height,36));
+        cam.lookAt(new Vector3f(0,height,0), Vector3f.UNIT_Y);
+        System.err.println(height);
+    }
+    
     @Override
     public void initialize(AppStateManager sManager, Application app) {
         super.initialize(sManager, app);
         
+        cam = app.getCamera();
         
+        gsGame = sManager.getState(GsGame.class);
         
         setEnabled(true);
     }

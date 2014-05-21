@@ -60,7 +60,7 @@ public class Game extends SimpleApplication {
     }
     
     public static void main(String[] args) {
-        Game game = new Game(new GsGame(), new GsMenuMain());
+        Game game = new Game(new GsGame(), new GsMenuMain(), new GsFreeFly());
         game.start();
     }
     

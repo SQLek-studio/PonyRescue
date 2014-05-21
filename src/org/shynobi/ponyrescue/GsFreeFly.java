@@ -22,9 +22,11 @@ package org.shynobi.ponyrescue;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
+import com.jme3.noise.basic.PermutedNoise;
 import com.jme3.renderer.Camera;
-import java.util.Random;
+import com.jme3.noise.common.ImprovedPerlin;
 
 /** Application state responsible for random background camera movement.
  *
@@ -34,29 +36,29 @@ public class GsFreeFly extends AbstractAppState {
     
     private final static float DEFAULT_HEIGHT = 30;
     
-    private final Random random = new Random();
+    private final PermutedNoise heightNoise = new PermutedNoise();
+    private final PermutedNoise angleNoise = new PermutedNoise();
     
     private GsGame gsGame;
     
     private Camera cam;
     
-    private float angle = 0;
-    private float angleSpeed = 0;
-    private float height = DEFAULT_HEIGHT;
+    private float time = 0;
     
     @Override
     public void update(float tpf) {
         if (!isEnabled())
             return;
         
-        float heightDelta = (float)random.nextGaussian();
-        height = (DEFAULT_HEIGHT
-                + height*(8-tpf)
-                + heightDelta*(tpf+1))/10;
+        time += tpf;
         
-        cam.setLocation(new Vector3f(36,height,36));
+        
+        float height = (heightNoise.value(time/8)+1)*5+5;
+        float angle = (angleNoise.value(time/8)*FastMath.PI);
+        
+        cam.setLocation(new Vector3f(-36*FastMath.cos(angle),height,36*FastMath.sin(angle)));
         cam.lookAt(new Vector3f(0,height,0), Vector3f.UNIT_Y);
-        System.err.println(height);
+        //System.err.println(height);
     }
     
     @Override

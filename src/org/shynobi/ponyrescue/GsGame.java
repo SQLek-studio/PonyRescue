@@ -19,11 +19,14 @@
  */
 package org.shynobi.ponyrescue;
 
+import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
+import com.jme3.app.state.AppStateManager;
 
 /** Main game state of PonyRescue.
  * 
- * It is responsible for displaying terrain, skybox and tower.
+ * It is responsible for displaying terrain, skybox and tower and camera.
+ * When it is active then random camera movment is produced
  *
  * @author Piotr SQLek Skólski
  */
@@ -56,6 +59,15 @@ public class GsGame extends AbstractAppState {
      */
     public float getMinHeight() {
         return 5;
+    }
+    
+    @Override
+    public void initialize(AppStateManager sManager, Application app) {
+        super.initialize(sManager, app);
+        
+        
+        
+        setEnabled(true);
     }
     
 }

@@ -23,6 +23,12 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.input.InputManager;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.InputListener;
+import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.Trigger;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.ui.Picture;
@@ -49,29 +55,32 @@ public class GsMenuMain extends AbstractAppState {
     }
     private static final Button[] BUTTONS = {
         new Button("Singleplayer",
-            0.25f,
-            0.475f,
-            0.5f,
-            0.125f),
+        0.25f,
+        0.475f,
+        0.5f,
+        0.125f),
         new Button("Multiplayer",
-            0.25f,
-            0.325f,
-            0.5f,
-            0.125f),
+        0.25f,
+        0.325f,
+        0.5f,
+        0.125f),
         new Button("Credits",
-            0.25f,
-            0.175f, 
-            0.5f, 
-            0.125f),
+        0.25f,
+        0.175f,
+        0.5f,
+        0.125f),
         new Button("Exit",
-            0.25f,
-            0.025f,
-            0.5f,
-            0.125f)
+        0.25f,
+        0.025f,
+        0.5f,
+        0.125f)
     };
     private static final String BUTTON_PREFIX = "Textures/Buttons/";
     private static final String BUTTON_POSTFIX = ".png";
     private static final String BUTTON_ACTIVE = "Active.png";
+    private static final Trigger TRIGGER_UP = new KeyTrigger(KeyInput.KEY_W);
+    private static final Trigger TRIGGER_DOWN = new KeyTrigger(KeyInput.KEY_S);
+    private static final Trigger TRIGGER_ACTION = new KeyTrigger(KeyInput.KEY_SPACE);
     private SimpleApplication sApp;
     private int margin = 0;
     private int scale = 1;
@@ -79,20 +88,22 @@ public class GsMenuMain extends AbstractAppState {
     private Picture[] buttons = new Picture[BUTTONS.length];
     private Picture[] buttonsActive = new Picture[BUTTONS.length];
     private Node buttonNode;
+    private InputManager inputManager;
 
     @Override
     public void initialize(AppStateManager sManager, Application app) {
         super.initialize(sManager, app);
         sApp = (SimpleApplication) app;
+        inputManager = app.getInputManager();
 
         Camera cam = app.getGuiViewPort().getCamera();
         int width = cam.getWidth();
         int height = cam.getHeight();
-        margin = (width - height)/2;
+        margin = (width - height) / 2;
         scale = height;
 
         buttonNode = new Node();
-        
+
         for (int i = 0; i < BUTTONS.length; ++i) {
             buttons[i] = new Picture(BUTTONS[i].name);
             buttons[i].setImage(sApp.getAssetManager(),
@@ -116,16 +127,57 @@ public class GsMenuMain extends AbstractAppState {
         }
         sApp.getGuiNode().attachChild(buttonNode);
         reactivateButtons();
+        attachKeyMapping();
+        setEnabled(true);
+    }
+    
+    @Override
+    public void cleanup() {
+        super.cleanup();
+        buttonNode.detachAllChildren();
     }
 
     private void reactivateButtons() {
-        selectedButton %= BUTTONS.length;
+        selectedButton = (selectedButton % BUTTONS.length + BUTTONS.length)
+                % BUTTONS.length;
         buttonNode.detachAllChildren();
         for (int i = 0; i < BUTTONS.length; ++i) {
-            if (selectedButton == i)
+            if (selectedButton == i) {
                 buttonNode.attachChild(buttonsActive[i]);
-            else
+            } else {
                 buttonNode.attachChild(buttons[i]);
+            }
         }
+    }
+
+    private void attachKeyMapping() {
+        inputManager.addMapping("UP", TRIGGER_UP);
+        inputManager.addMapping("DOWN", TRIGGER_DOWN);
+        inputManager.addMapping("ACTION", TRIGGER_ACTION);
+        inputManager.addListener(new ActionListener() {
+            public void onAction(String name, boolean keyPressed, float tpf) {
+                if (keyPressed)
+                    --selectedButton;//reversed
+                reactivateButtons();
+            }
+        }, "UP");
+        inputManager.addListener(new ActionListener() {
+            public void onAction(String name, boolean keyPressed, float tpf) {
+                if (keyPressed)
+                    ++selectedButton;//reversed
+                reactivateButtons();
+            }
+        }, "DOWN");
+        inputManager.addListener(new ActionListener() {
+            public void onAction(String name, boolean keyPressed, float tpf) {
+                if (!keyPressed)
+                    return;
+                if (selectedButton == 3)
+                    sApp.stop();
+                if (keyPressed)
+                    System.err.printf("Action %d%n",selectedButton);
+            }
+        }, "ACTION");
+        inputManager.setCursorVisible(false);
     }
 }

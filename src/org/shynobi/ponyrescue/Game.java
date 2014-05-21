@@ -19,6 +19,7 @@
  */
 package org.shynobi.ponyrescue;
 
+import com.jme3.app.DebugKeysAppState;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppState;
 import com.jme3.math.Vector3f;

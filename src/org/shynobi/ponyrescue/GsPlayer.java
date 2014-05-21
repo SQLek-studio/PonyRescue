@@ -21,7 +21,9 @@ package org.shynobi.ponyrescue;
 
 import com.jme3.app.state.AbstractAppState;
 
-/**
+/** AppState responsible for camera handling and user interaction.
+ * 
+ * It will be also an app state for displaying background in menus.
  *
  * @author Piotr SQLek Skólski
  */

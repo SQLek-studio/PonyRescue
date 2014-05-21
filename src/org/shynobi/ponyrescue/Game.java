@@ -20,6 +20,7 @@
 package org.shynobi.ponyrescue;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.app.state.AppState;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
@@ -29,6 +30,10 @@ import com.jme3.scene.Spatial;
  */
 public class Game extends SimpleApplication {
 
+    public Game(AppState... states) {
+        super(states);
+    }
+    
     @Override
     public void simpleInitApp() {/*
         Material groundMaterial = new Material(assetManager, 
@@ -50,11 +55,11 @@ public class Game extends SimpleApplication {
         
         cam.setLocation(new Vector3f(36,36,36));
         cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
-        flyCam.setMoveSpeed(20);
+        //flyCam.setMoveSpeed(20);
     }
     
     public static void main(String[] args) {
-        Game game = new Game();
+        Game game = new Game(new GsGame(), new GsMenuMain());
         game.start();
     }
     

@@ -29,4 +29,33 @@ import com.jme3.app.state.AbstractAppState;
  */
 public class GsGame extends AbstractAppState {
     
+    
+    
+    /** Computes distance from center on whitch rescuer can be.
+     *
+     * @param angle From zero inclusive to one exclusive.
+     * @param height Height from ground.
+     * @return Distance from center for objcect.
+     */
+    public float freeFlyDistance(float angle, float height) {
+        
+        return 10;
+    }
+    
+    /**
+     *
+     * @return Maximum height for object.
+     */
+    public float getMaxheight() {
+        return 50;
+    }
+    
+    /**
+     *
+     * @return Minimum height for object.
+     */
+    public float getMinHeight() {
+        return 5;
+    }
+    
 }

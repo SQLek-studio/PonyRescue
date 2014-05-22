@@ -27,6 +27,7 @@ import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.CartoonEdgeFilter;
+import com.jme3.post.filters.FXAAFilter;
 import com.jme3.post.ssao.SSAOFilter;
 import com.jme3.scene.Spatial;
 
@@ -56,7 +57,7 @@ public class Game extends SimpleApplication {
         */
         Spatial tower = assetManager.loadModel("Scenes/Main.j3o");
         //Geometry tower = new Geometry("Tower",new Box(1,4,1));
-        tower.setMaterial(material);
+        //tower.setMaterial(material);
         rootNode.attachChild(tower);
         
         cam.setLocation(new Vector3f(36,36,36));
@@ -66,17 +67,21 @@ public class Game extends SimpleApplication {
         FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
         viewPort.addProcessor(fpp);
         
+        FXAAFilter fxaaFilter = new FXAAFilter();
+        
         CartoonEdgeFilter cartoon = new CartoonEdgeFilter();
-        //cartoon.setEdgeWidth(1.2f);
-        cartoon.setDepthSensitivity(2);
+        //cartoon.setEdgeWidth(2.2f);
+        cartoon.setDepthSensitivity(20);
+        cartoon.setDepthThreshold(0.8f);
         
         SSAOFilter ssaoFilter = new SSAOFilter();
         //ssaoFilter.setBias(0.3f);
         ssaoFilter.setIntensity(5.2f);
         ssaoFilter.setSampleRadius(1.3f);
         
-        fpp.addFilter(ssaoFilter);
+        //fpp.addFilter(ssaoFilter);
         fpp.addFilter(cartoon);
+        fpp.addFilter(fxaaFilter);
     }
     
     public static void main(String[] args) {

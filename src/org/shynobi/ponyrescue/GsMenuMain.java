@@ -154,6 +154,7 @@ public class GsMenuMain extends AbstractAppState {
         inputManager.addMapping("DOWN", TRIGGER_DOWN);
         inputManager.addMapping("ACTION", TRIGGER_ACTION);
         inputManager.addListener(new ActionListener() {
+            @Override
             public void onAction(String name, boolean keyPressed, float tpf) {
                 if (keyPressed)
                     --selectedButton;//reversed
@@ -161,6 +162,7 @@ public class GsMenuMain extends AbstractAppState {
             }
         }, "UP");
         inputManager.addListener(new ActionListener() {
+            @Override
             public void onAction(String name, boolean keyPressed, float tpf) {
                 if (keyPressed)
                     ++selectedButton;//reversed
@@ -168,6 +170,7 @@ public class GsMenuMain extends AbstractAppState {
             }
         }, "DOWN");
         inputManager.addListener(new ActionListener() {
+            @Override
             public void onAction(String name, boolean keyPressed, float tpf) {
                 if (!keyPressed)
                     return;
@@ -177,6 +180,6 @@ public class GsMenuMain extends AbstractAppState {
                     System.err.printf("Action %d%n",selectedButton);
             }
         }, "ACTION");
-        inputManager.setCursorVisible(false);
+        //inputManager.setCursorVisible(false);
     }
 }

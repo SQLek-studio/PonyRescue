@@ -1,0 +1,5 @@
+Material PonyBody : MatDefs/DiffuseOnly.j3md {
+     MaterialParameters {
+         Texture: Models/PoniesTmp/PonyBody.png
+     }
+}

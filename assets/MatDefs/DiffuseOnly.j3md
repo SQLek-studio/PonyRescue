@@ -1,0 +1,23 @@
+MaterialDef DifuseOnly {
+    MaterialParameters {
+        Vector3 ColorRed
+        Vector3 ColorGreen
+        Vector3 ColorBlue
+        Texture2D Texture
+        Texture2D ColorMask
+    }
+    Defines {
+        COLOR_R : ColorRed
+        COLOR_G : ColorGreen
+        COLOR_B : ColorBlue
+        TEXTURE : Texture
+        COLOR_MASK : ColorMask
+    }
+    Technique {
+        VertexShader GLSL100:   Shaders/DiffuseOnly.vert
+        FragmentShader GLSL100: Shaders/DiffuseOnly.frag
+        WorldParameters {
+            WorldViewProjectionMatrix
+        }
+    }
+}

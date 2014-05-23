@@ -38,7 +38,8 @@ import com.jme3.scene.Spatial;
 public class Game extends SimpleApplication {
 
     public Game(AppState... states) {
-        super(states);
+        //super(states);
+        super();
     }
     
     @Override
@@ -58,7 +59,12 @@ public class Game extends SimpleApplication {
         Spatial tower = assetManager.loadModel("Scenes/Main.j3o");
         //Geometry tower = new Geometry("Tower",new Box(1,4,1));
         //tower.setMaterial(material);
-        rootNode.attachChild(tower);
+        //rootNode.attachChild(tower);
+        
+        Pony pony = new Pony("Pony");
+        pony.init(assetManager);
+        pony.setLocalTranslation(24, 25, 24);
+        rootNode.attachChild(pony);
         
         cam.setLocation(new Vector3f(36,36,36));
         cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);

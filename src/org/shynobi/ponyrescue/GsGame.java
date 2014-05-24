@@ -20,8 +20,15 @@
 package org.shynobi.ponyrescue;
 
 import com.jme3.app.Application;
+import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.asset.AssetManager;
+import com.jme3.light.AmbientLight;
+import com.jme3.material.Material;
+import com.jme3.renderer.queue.RenderQueue.Bucket;
+import com.jme3.scene.Spatial;
+import com.jme3.util.SkyFactory;
 
 /** Main game state of PonyRescue.
  * 
@@ -32,6 +39,12 @@ import com.jme3.app.state.AppStateManager;
  */
 public class GsGame extends AbstractAppState {
     
+    private Spatial tower;
+    private Spatial ground;
+    
+    private Spatial sky;
+    
+    private AmbientLight ambientLight = new AmbientLight();
     
     
     /** Computes distance from center on whitch rescuer can be.
@@ -64,8 +77,27 @@ public class GsGame extends AbstractAppState {
     @Override
     public void initialize(AppStateManager sManager, Application app) {
         super.initialize(sManager, app);
+        AssetManager aManager = app.getAssetManager();
         
+        Material groundM = aManager.loadMaterial("Materials/Ground.j3m");
+        Material towerM = aManager.loadMaterial("Materials/Tower.j3m");
+        Material skyM = aManager.loadMaterial("Materials/Sky.j3m");
         
+        ground = aManager.loadModel("Models/Ground.j3o");
+        ground.setMaterial(groundM);
+        
+        tower = aManager.loadModel("Models/Tower.j3o");
+        tower.setMaterial(towerM);
+        //tower.setLocalTranslation(0, 0.01f, 0);
+        
+        sky = aManager.loadModel("Models/Sky.j3o");
+        sky.setMaterial(skyM);
+        sky.setQueueBucket(Bucket.Sky);
+        
+        ((SimpleApplication)app).getRootNode().addLight(ambientLight);
+        ((SimpleApplication)app).getRootNode().attachChild(ground);
+        ((SimpleApplication)app).getRootNode().attachChild(tower);
+        ((SimpleApplication)app).getRootNode().attachChild(sky);
         
         setEnabled(true);
     }

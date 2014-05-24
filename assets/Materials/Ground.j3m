@@ -1,0 +1,10 @@
+Material PonyBody : Common/MatDefs/Light/Lighting.j3md {
+     MaterialParameters {
+        DiffuseMap : Textures/Ground.png
+        UseMaterialColors : true
+        Diffuse : 1.5 1.5 1.5 1.0
+        Ambient : 0.6 0.6 0.6 1.0
+     }
+    AdditionalRenderState {
+    }
+}

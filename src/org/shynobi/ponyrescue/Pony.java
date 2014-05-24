@@ -35,10 +35,29 @@ public class Pony extends Node {
     }
     
     public void init(AssetManager assetManager) {
-        Material material = new Material(assetManager,"MatDefs/DiffuseOnly.j3md");
-        Spatial pony = assetManager.loadModel("Models/PoniesTmp/PonyBody.j3o");
-        pony.setMaterial(material);
-        attachChild(pony);
+        Material bodyM = assetManager.loadMaterial("Materials/PonyBody.j3m");
+        Material eyesM = assetManager.loadMaterial("Materials/PonyEyes.j3m");
+        Material maneBackM = assetManager.loadMaterial("Materials/PonyManeBack.j3m");
+        Material ManeFrontM = assetManager.loadMaterial("Materials/PonyManeFront.j3m");
+        Material tailM = assetManager.loadMaterial("Materials/PonyTail.j3m");
+        
+        Spatial body = assetManager.loadModel("Models/PonyBody.j3o");
+        Spatial eyes = assetManager.loadModel("Models/PonyEyes.j3o");
+        Spatial maneBack = assetManager.loadModel("Models/PonyManeBack.j3o");
+        Spatial maneFront = assetManager.loadModel("Models/PonyManeFront.j3o");
+        Spatial tail = assetManager.loadModel("Models/PonyTail.j3o");
+        
+        body.setMaterial(bodyM);
+        eyes.setMaterial(eyesM);
+        maneBack.setMaterial(maneBackM);
+        maneFront.setMaterial(ManeFrontM);
+        tail.setMaterial(tailM);
+        
+        attachChild(body);
+        attachChild(eyes);
+        attachChild(maneBack);
+        attachChild(maneFront);
+        attachChild(tail);
     }
     
 }

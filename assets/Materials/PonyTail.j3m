@@ -1,0 +1,12 @@
+Material PonyBody : Common/MatDefs/Light/Lighting.j3md {
+     MaterialParameters {
+        DiffuseMap : Textures/PonyTail.png
+        Diffuse : 0.6 0.6 0.6 0.6
+        Ambient : 1.2 1.2 1.2 1.2
+        HighQuality : false
+        VTangent : false
+        Minnaert : true
+     }
+    AdditionalRenderState {
+    }
+}

@@ -1,0 +1,9 @@
+Material Sky : Common/MatDefs/Misc/Unshaded.j3md {
+     MaterialParameters {
+        ColorMap : Repeat Textures/Sky.jpg
+        Color : 0.9 0.9 0.9 1
+     }
+    AdditionalRenderState {
+      FaceCull Front
+    }
+}

@@ -19,17 +19,13 @@
  */
 package org.shynobi.ponyrescue;
 
-import com.jme3.app.DebugKeysAppState;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.StatsAppState;
 import com.jme3.app.state.AppState;
-import com.jme3.material.Material;
-import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.CartoonEdgeFilter;
 import com.jme3.post.filters.FXAAFilter;
 import com.jme3.post.ssao.SSAOFilter;
-import com.jme3.scene.Spatial;
 
 /**
  *
@@ -38,14 +34,13 @@ import com.jme3.scene.Spatial;
 public class Game extends SimpleApplication {
 
     public Game(AppState... states) {
-        //super(states);
-        super();
+        super(states);
     }
     
     @Override
     public void simpleInitApp() {
-        Material material = new Material(assetManager, 
-        "Common/MatDefs/Misc/Unshaded.j3md");
+        //Material material = new Material(assetManager, 
+        //"Common/MatDefs/Misc/Unshaded.j3md");
         //groundMaterial.setColor("Color", ColorRGBA.Green);
         /*
         Material towerMaterial = new Material(assetManager, 
@@ -56,20 +51,28 @@ public class Game extends SimpleApplication {
         ground.setMaterial(groundMaterial);
         rootNode.attachChild(ground);
         */
-        Spatial tower = assetManager.loadModel("Scenes/Main.j3o");
+        //Spatial tower = assetManager.loadModel("Scenes/Main.j3o");
         //Geometry tower = new Geometry("Tower",new Box(1,4,1));
         //tower.setMaterial(material);
         //rootNode.attachChild(tower);
-        
+        /*
         Pony pony = new Pony("Pony");
         pony.init(assetManager);
         pony.setLocalTranslation(24, 25, 24);
         rootNode.attachChild(pony);
+        //rootNode.attachChild();
+        DirectionalLight dLight = new DirectionalLight();
+        dLight.setDirection(Vector3f.UNIT_Z.negateLocal());
+        
+        AmbientLight aLight = new AmbientLight();
+        
+        rootNode.addLight(dLight);
+        rootNode.addLight(aLight);
         
         cam.setLocation(new Vector3f(36,36,36));
         cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
         //flyCam.setMoveSpeed(20);
-        
+        */
         FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
         viewPort.addProcessor(fpp);
         

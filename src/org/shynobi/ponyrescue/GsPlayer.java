@@ -75,7 +75,7 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
 
     @Override
     public float tickTime() {
-        return 0;
+        return 0.1f;
     }
     
     

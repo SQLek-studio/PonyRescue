@@ -45,6 +45,7 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
     @Override
     public void initialize(AppStateManager sManager, Application app) {
         player.init(app.getAssetManager());
+        setEnabled(true);
     }
 
     @Override

@@ -128,7 +128,7 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
         sApp.getGuiNode().attachChild(buttonNode);
         reactivateButtons();
         setEnabled(true);
-        
+
         sManager.getState(GsInputHandling.class).setWasdListener(this);
         sManager.getState(GsInputHandling.class).setArrowsListener(this);
     }
@@ -140,9 +140,12 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
     }
 
     private void reactivateButtons() {
+        buttonNode.detachAllChildren();
+        if (!isEnabled()) {
+            return;
+        }
         selectedButton = (selectedButton % BUTTONS.length + BUTTONS.length)
                 % BUTTONS.length;
-        buttonNode.detachAllChildren();
         for (int i = 0; i < BUTTONS.length; ++i) {
             if (selectedButton == i) {
                 buttonNode.attachChild(buttonsActive[i]);
@@ -185,13 +188,42 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
         ++selectedButton;
         reactivateButtons();
     }
-    
+
     @Override
-     public float tickTime() {
+    public float tickTime() {
         return 0.25f;
     }
-    
+
     public void gotoGameSingle() {
+        GsPlayer playerA = new GsPlayer(sApp.getCamera(),
+                sManager.getState(GsGame.class), true);
+        sManager.getState(GsInputHandling.class).setWasdListener(playerA);
+        sManager.getState(GsInputHandling.class).setArrowsListener(playerA);
+        sManager.attach(playerA);
         
+        //here place for GsFire
+        
+        setEnabled(false);
+        reactivateButtons();
     }
+    
+    public void gotoGameMulti() {
+        //here place to split camera
+        
+        GsPlayer playerA = new GsPlayer(sApp.getCamera(),
+                sManager.getState(GsGame.class), true);
+        sManager.getState(GsInputHandling.class).setWasdListener(playerA);
+        
+        GsPlayer playerB = new GsPlayer(sApp.getCamera(),
+                sManager.getState(GsGame.class), true);
+        sManager.getState(GsInputHandling.class).setArrowsListener(playerB);
+        sManager.attach(playerB);
+        
+        //here place for GsFire
+        
+        setEnabled(false);
+        reactivateButtons();
+    }
+    
+    
 }

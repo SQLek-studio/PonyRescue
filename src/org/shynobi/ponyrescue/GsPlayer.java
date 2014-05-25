@@ -39,10 +39,15 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
     
     public final static float HEIGHT_INCREMENT = 1f;
     public final static float HEIGHT_FALLOF = 0.05f;
+    public final static float POSITION_INCREMENT = 0.05f;
+    
+    public final static String FIRST_PLAYER = "PlayerA";
+    public final static String SECOND_PLAYER = "PlayerA";
     
     private final Camera camera;
     private final GsGame gsGame;
-    private final Pony player;
+    private final boolean isFirstPlayer;
+    private Pony player;
     
     private Node rootNode;
     
@@ -55,7 +60,7 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
     public GsPlayer(Camera camera, GsGame gsGame, boolean first) {
         this.camera = camera;
         this.gsGame = gsGame;
-        player = new Pony(first? "PlayerA": "PlayerB");
+        isFirstPlayer = first;
         maxHeight = gsGame.getMaxHeight();
         minHeight = gsGame.getMinHeight();
         height = (maxHeight+minHeight)/2;
@@ -63,7 +68,8 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
     
     @Override
     public void initialize(AppStateManager sManager, Application app) {
-        player.init(app.getAssetManager());
+        player = Pony.create(isFirstPlayer? FIRST_PLAYER: SECOND_PLAYER,
+                app.getAssetManager());
         rootNode = ((SimpleApplication)app).getRootNode();
         rootNode.attachChild(player);
         sManager.getState(GsFreeFly.class).setEnabled(false);
@@ -89,12 +95,14 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
     
     @Override
     public void makeLeft(float fpf) {
-        
+        angle -= POSITION_INCREMENT*fpf;
+        movePonyCamera();
     }
 
     @Override
     public void makeRight(float fpf) {
-        
+        angle += POSITION_INCREMENT*fpf;
+        movePonyCamera();
     }
 
     @Override
@@ -113,6 +121,8 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
     }
     
     private void movePonyCamera() {
+        
+        angle -= FastMath.floor(angle);
         
         float distance = gsGame.freeFlyDistance(angle, height);
         

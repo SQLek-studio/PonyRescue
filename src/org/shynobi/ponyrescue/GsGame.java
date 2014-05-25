@@ -44,10 +44,10 @@ public class GsGame extends AbstractAppState {
     
     private Spatial tower;
     private Spatial ground;
-    
-    private Spatial constrains;
-    
     private Spatial sky;
+    
+    private Spatial windows;
+    private Spatial constrains;
     
     private AmbientLight ambientLight = new AmbientLight();
     
@@ -105,6 +105,9 @@ public class GsGame extends AbstractAppState {
         
         constrains = aManager.loadModel("Models/FlyConstrains.j3o");
         constrains.setMaterial(invisible);
+        
+        windows = aManager.loadModel("Models/Windows.j3o");
+        windows.setMaterial(invisible);
         
         sky = aManager.loadModel("Models/Sky.j3o");
         sky.setMaterial(skyM);

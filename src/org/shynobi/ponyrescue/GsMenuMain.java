@@ -27,6 +27,7 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.Trigger;
+import com.jme3.math.FastMath;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.ui.Picture;
@@ -82,6 +83,7 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
     private SimpleApplication sApp;
     private int margin = 0;
     private int scale = 1;
+    private float selection = 0;
     private int selectedButton = 0;
     private Picture[] buttons = new Picture[BUTTONS.length];
     private Picture[] buttonsActive = new Picture[BUTTONS.length];
@@ -140,6 +142,8 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
     }
 
     private void reactivateButtons() {
+        selection -= FastMath.floor(selection);
+        selectedButton = (int)FastMath.floor(selection*4); 
         buttonNode.detachAllChildren();
         if (!isEnabled()) {
             return;
@@ -167,25 +171,25 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
 
     @Override
     public void makeLeft(float fpf) {
-        --selectedButton;
+        selection -= fpf;
         reactivateButtons();
     }
 
     @Override
     public void makeRight(float fpf) {
-        ++selectedButton;
+        selection += fpf;
         reactivateButtons();
     }
 
     @Override
     public void makeUp(float fpf) {
-        --selectedButton;
+        selection -= fpf;
         reactivateButtons();
     }
 
     @Override
     public void makeDown(float fpf) {
-        ++selectedButton;
+        selection += fpf;
         reactivateButtons();
     }
 

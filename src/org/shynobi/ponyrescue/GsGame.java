@@ -75,7 +75,7 @@ public class GsGame extends AbstractAppState {
      *
      * @return Maximum height for object.
      */
-    public float getMaxheight() {
+    public float getMaxHeight() {
         return 28;
     }
     

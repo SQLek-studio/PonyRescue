@@ -23,6 +23,8 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
@@ -35,6 +37,9 @@ import com.jme3.scene.Node;
  */
 public class GsPlayer extends AbstractAppState implements PlayerListener {
     
+    public final static float HEIGHT_INCREMENT = 1f;
+    public final static float HEIGHT_FALLOF = 0.05f;
+    
     private final Camera camera;
     private final GsGame gsGame;
     private final Pony player;
@@ -44,11 +49,16 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
     private float height;
     private float angle;
     
+    private float maxHeight;
+    private float minHeight;
+    
     public GsPlayer(Camera camera, GsGame gsGame, boolean first) {
         this.camera = camera;
         this.gsGame = gsGame;
         player = new Pony(first? "PlayerA": "PlayerB");
-        height = (gsGame.getMaxheight()+gsGame.getMinHeight())/2;
+        maxHeight = gsGame.getMaxHeight();
+        minHeight = gsGame.getMinHeight();
+        height = (maxHeight+minHeight)/2;
     }
     
     @Override
@@ -63,9 +73,20 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
 
     @Override
     public void makeAction(float fpf) {
-        
+        height += HEIGHT_INCREMENT;
+        if (height > maxHeight)
+            height = maxHeight;
+        movePonyCamera();
     }
 
+    @Override
+    public void update(float tpf) {
+        height -= HEIGHT_FALLOF;
+        if (height < minHeight)
+            height = minHeight;
+        movePonyCamera();
+    }
+    
     @Override
     public void makeLeft(float fpf) {
         
@@ -99,6 +120,10 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
                 GsGame.getCircleX(angle, distance),
                 height,
                 GsGame.getCircleZ(angle, distance));
+        
+        player.setLocalRotation(new Quaternion().fromAngleAxis(
+                (angle+0.375f)*FastMath.TWO_PI,
+                Vector3f.UNIT_Y));
         
         camera.setLocation(new Vector3f(
                 GsGame.getCircleX(angle, distance+8),

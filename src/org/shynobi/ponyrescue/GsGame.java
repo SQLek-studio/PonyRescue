@@ -31,6 +31,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 /** Main game state of PonyRescue.
@@ -46,7 +47,7 @@ public class GsGame extends AbstractAppState {
     private Spatial ground;
     private Spatial sky;
     
-    private Spatial windows;
+    private Node windows;
     private Spatial constrains;
     
     private AmbientLight ambientLight = new AmbientLight();
@@ -106,7 +107,7 @@ public class GsGame extends AbstractAppState {
         constrains = aManager.loadModel("Models/FlyConstrains.j3o");
         constrains.setMaterial(invisible);
         
-        windows = aManager.loadModel("Models/Windows.j3o");
+        windows = (Node)aManager.loadModel("Models/Windows.j3o");
         windows.setMaterial(invisible);
         
         sky = aManager.loadModel("Models/Sky.j3o");
@@ -136,6 +137,10 @@ public class GsGame extends AbstractAppState {
         angle -= A;
         angle *= FastMath.TWO_PI;
         return -FastMath.sin(angle)*distance;
+    }
+    
+    public Node getWindows() {
+        return windows;
     }
     
 }

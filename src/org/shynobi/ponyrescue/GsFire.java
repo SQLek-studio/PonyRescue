@@ -19,12 +19,58 @@
  */
 package org.shynobi.ponyrescue;
 
+import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
+import com.jme3.app.state.AppStateManager;
+import com.jme3.asset.AssetManager;
+import com.jme3.audio.AudioNode;
+import com.jme3.effect.ParticleEmitter;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 
 /**
  *
  * @author Piotr SQLek Skólski
  */
 public class GsFire extends AbstractAppState {
+    
+    private class WindowNode {
+        Spatial window;
+        Pony pony;
+        ParticleEmitter cloudEmiter;
+        ParticleEmitter fireEmiter;
+        AudioNode audioNode;
+    }
+    
+    private WindowNode[] windowNodes;
+    private AssetManager aManager;
+    private Node windows;
+    
+    @Override
+    public void initialize(AppStateManager sManager, Application app) {
+        super.initialize(sManager,app);
+        aManager = app.getAssetManager();
+        
+        windows = sManager.getState(GsGame.class).getWindows();
+        windowNodes = new WindowNode[windows.getQuantity()];
+        for (int i = 0; i < windowNodes.length; ++i) {
+            windowNodes[i] = new WindowNode();
+            windowNodes[i].window = windows.getChild(i);
+            
+            
+            
+            //Xinef: audio loading here
+            //windowNodes[i].audioNode = ???
+            
+        }
+        setEnabled(true);
+    }
+    
+    @Override
+    public void update(float tpf) {
+        if (!isEnabled())
+            return;
+        //fire logic go here
+    }
     
 }

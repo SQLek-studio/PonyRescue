@@ -20,9 +20,12 @@
 package org.shynobi.ponyrescue;
 
 import com.jme3.app.Application;
+import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.scene.Node;
 
 /** AppState responsible for camera handling and user interaction.
  * 
@@ -36,15 +39,25 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
     private final GsGame gsGame;
     private final Pony player;
     
+    private Node rootNode;
+    
+    private float height;
+    private float angle;
+    
     public GsPlayer(Camera camera, GsGame gsGame, boolean first) {
         this.camera = camera;
         this.gsGame = gsGame;
         player = new Pony(first? "PlayerA": "PlayerB");
+        height = (gsGame.getMaxheight()+gsGame.getMinHeight())/2;
     }
     
     @Override
     public void initialize(AppStateManager sManager, Application app) {
         player.init(app.getAssetManager());
+        rootNode = ((SimpleApplication)app).getRootNode();
+        rootNode.attachChild(player);
+        sManager.getState(GsFreeFly.class).setEnabled(false);
+        movePonyCamera();
         setEnabled(true);
     }
 
@@ -78,6 +91,20 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
         return 0.1f;
     }
     
-    
-    
+    private void movePonyCamera() {
+        
+        float distance = gsGame.freeFlyDistance(angle, height);
+        
+        player.setLocalTranslation(
+                GsGame.getCircleX(angle, distance),
+                height,
+                GsGame.getCircleZ(angle, distance));
+        
+        camera.setLocation(new Vector3f(
+                GsGame.getCircleX(angle, distance+8),
+                height,
+                GsGame.getCircleZ(angle, distance+8)));
+        
+        camera.lookAt(new Vector3f(0,height,0), Vector3f.UNIT_Y);
+    }
 }

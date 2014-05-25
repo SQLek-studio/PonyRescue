@@ -53,6 +53,12 @@ public class Pony extends Node {
         maneFront.setMaterial(ManeFrontM);
         tail.setMaterial(tailM);
         
+        body.setLocalScale(0.25f);
+        eyes.setLocalScale(0.25f);
+        maneBack.setLocalScale(0.25f);
+        maneFront.setLocalScale(0.25f);
+        tail.setLocalScale(0.25f);
+        
         attachChild(body);
         attachChild(eyes);
         attachChild(maneBack);

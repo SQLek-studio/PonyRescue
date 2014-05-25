@@ -1,0 +1,8 @@
+Material Invisible : Common/MatDefs/Misc/Unshaded.j3md {
+     MaterialParameters {
+        Color : 0.9 0.9 0.9 1
+     }
+    AdditionalRenderState {
+      FaceCull FrontAndBack
+    }
+}

@@ -22,11 +22,9 @@ package org.shynobi.ponyrescue;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.noise.basic.PermutedNoise;
 import com.jme3.renderer.Camera;
-import com.jme3.noise.common.ImprovedPerlin;
 
 /** Application state responsible for random background camera movement.
  *
@@ -53,10 +51,14 @@ public class GsFreeFly extends AbstractAppState {
         time += tpf;
         
         
-        float height = (heightNoise.value(time/8)+1)*5+5;
-        float angle = (angleNoise.value(time/8)*FastMath.PI);
+        float height = (heightNoise.value(time/8)+1)*13+2;
+        float angle = (angleNoise.value(time/8)+1)/2;
+        float distance = gsGame.freeFlyDistance(angle, height);
         
-        cam.setLocation(new Vector3f(-36*FastMath.cos(angle),height,36*FastMath.sin(angle)));
+        cam.setLocation(new Vector3f(
+                GsGame.getCircleX(angle, distance+8),
+                height,
+                GsGame.getCircleZ(angle, distance+8)));
         cam.lookAt(new Vector3f(0,height,0), Vector3f.UNIT_Y);
         //System.err.println(height);
     }

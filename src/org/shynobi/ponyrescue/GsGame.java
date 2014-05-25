@@ -24,11 +24,14 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
+import com.jme3.collision.CollisionResults;
 import com.jme3.light.AmbientLight;
 import com.jme3.material.Material;
+import com.jme3.math.FastMath;
+import com.jme3.math.Ray;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Spatial;
-import com.jme3.util.SkyFactory;
 
 /** Main game state of PonyRescue.
  * 
@@ -42,9 +45,13 @@ public class GsGame extends AbstractAppState {
     private Spatial tower;
     private Spatial ground;
     
+    private Spatial constrains;
+    
     private Spatial sky;
     
     private AmbientLight ambientLight = new AmbientLight();
+    
+    private final CollisionResults collisions = new CollisionResults();
     
     
     /** Computes distance from center on whitch rescuer can be.
@@ -54,8 +61,14 @@ public class GsGame extends AbstractAppState {
      * @return Distance from center for objcect.
      */
     public float freeFlyDistance(float angle, float height) {
-        
-        return 10;
+        collisions.clear();
+        Ray ray = new Ray(
+                new Vector3f(0,height,0),
+                new Vector3f(getCircleX(angle,1),0,getCircleZ(angle,1)));
+        constrains.collideWith(ray, collisions);
+        if (collisions.size() > 0)
+            return collisions.getClosestCollision().getDistance();
+        return 0;
     }
     
     /**
@@ -63,7 +76,7 @@ public class GsGame extends AbstractAppState {
      * @return Maximum height for object.
      */
     public float getMaxheight() {
-        return 55;
+        return 28;
     }
     
     /**
@@ -71,7 +84,7 @@ public class GsGame extends AbstractAppState {
      * @return Minimum height for object.
      */
     public float getMinHeight() {
-        return 5;
+        return 2;
     }
     
     @Override
@@ -82,13 +95,16 @@ public class GsGame extends AbstractAppState {
         Material groundM = aManager.loadMaterial("Materials/Ground.j3m");
         Material towerM = aManager.loadMaterial("Materials/Tower.j3m");
         Material skyM = aManager.loadMaterial("Materials/Sky.j3m");
+        Material invisible = aManager.loadMaterial("Materials/Invisible.j3m");
         
         ground = aManager.loadModel("Models/Ground.j3o");
         ground.setMaterial(groundM);
         
         tower = aManager.loadModel("Models/Tower.j3o");
         tower.setMaterial(towerM);
-        //tower.setLocalTranslation(0, 0.01f, 0);
+        
+        constrains = aManager.loadModel("Models/FlyConstrains.j3o");
+        constrains.setMaterial(invisible);
         
         sky = aManager.loadModel("Models/Sky.j3o");
         sky.setMaterial(skyM);
@@ -97,9 +113,26 @@ public class GsGame extends AbstractAppState {
         ((SimpleApplication)app).getRootNode().addLight(ambientLight);
         ((SimpleApplication)app).getRootNode().attachChild(ground);
         ((SimpleApplication)app).getRootNode().attachChild(tower);
+        ((SimpleApplication)app).getRootNode().attachChild(constrains);
         ((SimpleApplication)app).getRootNode().attachChild(sky);
         
         setEnabled(true);
+    }
+    
+    public static float getCircleX(float angle, float distance) {
+        angle -= 0.125f;
+        float A = FastMath.floor(angle);
+        angle -= A;
+        angle *= FastMath.TWO_PI;
+        return -FastMath.cos(angle)*distance;
+    }
+    
+    public static float getCircleZ(float angle, float distance) {
+        angle -= 0.125f;
+        float A = FastMath.floor(angle);
+        angle -= A;
+        angle *= FastMath.TWO_PI;
+        return -FastMath.sin(angle)*distance;
     }
     
 }

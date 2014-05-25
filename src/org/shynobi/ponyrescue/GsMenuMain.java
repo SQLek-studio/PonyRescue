@@ -25,7 +25,6 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
-import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.renderer.Camera;
@@ -37,7 +36,7 @@ import com.jme3.ui.Picture;
  *
  * @author Piotr SQLek Skólski
  */
-public class GsMenuMain extends AbstractAppState {
+public class GsMenuMain extends AbstractAppState implements PlayerListener {
 
     private static class Button {
 
@@ -126,10 +125,12 @@ public class GsMenuMain extends AbstractAppState {
         }
         sApp.getGuiNode().attachChild(buttonNode);
         reactivateButtons();
-        attachKeyMapping();
         setEnabled(true);
+        
+        sManager.getState(GsInputHandling.class).setWasdListener(this);
+        sManager.getState(GsInputHandling.class).setArrowsListener(this);
     }
-    
+
     @Override
     public void cleanup() {
         super.cleanup();
@@ -149,37 +150,40 @@ public class GsMenuMain extends AbstractAppState {
         }
     }
 
-    private void attachKeyMapping() {
-        inputManager.addMapping("UP", TRIGGER_UP);
-        inputManager.addMapping("DOWN", TRIGGER_DOWN);
-        inputManager.addMapping("ACTION", TRIGGER_ACTION);
-        inputManager.addListener(new ActionListener() {
-            @Override
-            public void onAction(String name, boolean keyPressed, float tpf) {
-                if (keyPressed)
-                    --selectedButton;//reversed
-                reactivateButtons();
-            }
-        }, "UP");
-        inputManager.addListener(new ActionListener() {
-            @Override
-            public void onAction(String name, boolean keyPressed, float tpf) {
-                if (keyPressed)
-                    ++selectedButton;//reversed
-                reactivateButtons();
-            }
-        }, "DOWN");
-        inputManager.addListener(new ActionListener() {
-            @Override
-            public void onAction(String name, boolean keyPressed, float tpf) {
-                if (!keyPressed)
-                    return;
-                if (selectedButton == 3)
-                    sApp.stop();
-                if (keyPressed)
-                    System.err.printf("Action %d%n",selectedButton);
-            }
-        }, "ACTION");
-        //inputManager.setCursorVisible(false);
+    @Override
+    public void makeAction(float fpf) {
+        if (selectedButton == 3) {
+            sApp.stop();
+        }
+        System.err.printf("Action %d%n", selectedButton);
+    }
+
+    @Override
+    public void makeLeft(float fpf) {
+        --selectedButton;
+        reactivateButtons();
+    }
+
+    @Override
+    public void makeRight(float fpf) {
+        ++selectedButton;
+        reactivateButtons();
+    }
+
+    @Override
+    public void makeUp(float fpf) {
+        --selectedButton;
+        reactivateButtons();
+    }
+
+    @Override
+    public void makeDown(float fpf) {
+        ++selectedButton;
+        reactivateButtons();
+    }
+    
+    @Override
+     public float tickTime() {
+        return 0.25f;
     }
 }

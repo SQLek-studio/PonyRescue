@@ -94,7 +94,12 @@ public class Game extends SimpleApplication {
     }
     
     public static void main(String[] args) {
-        Game game = new Game(new GsGame(), new GsMenuMain(), new GsFreeFly(), new StatsAppState());
+        Game game = new Game(
+                new GsGame(),
+                new GsMenuMain(),
+                new GsFreeFly(),
+                new GsInputHandling(),
+                new StatsAppState());
         game.start();
     }
     

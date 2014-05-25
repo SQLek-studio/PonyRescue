@@ -87,10 +87,12 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
     private Picture[] buttonsActive = new Picture[BUTTONS.length];
     private Node buttonNode;
     private InputManager inputManager;
+    private AppStateManager sManager;
 
     @Override
     public void initialize(AppStateManager sManager, Application app) {
         super.initialize(sManager, app);
+        this.sManager = sManager;
         sApp = (SimpleApplication) app;
         inputManager = app.getInputManager();
 
@@ -152,10 +154,12 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
 
     @Override
     public void makeAction(float fpf) {
+        if (selectedButton == 0) {
+            gotoGameSingle();
+        }
         if (selectedButton == 3) {
             sApp.stop();
         }
-        System.err.printf("Action %d%n", selectedButton);
     }
 
     @Override
@@ -185,5 +189,9 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
     @Override
      public float tickTime() {
         return 0.25f;
+    }
+    
+    public void gotoGameSingle() {
+        
     }
 }

@@ -19,7 +19,10 @@
  */
 package org.shynobi.ponyrescue;
 
+import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
+import com.jme3.app.state.AppStateManager;
+import com.jme3.renderer.Camera;
 
 /** AppState responsible for camera handling and user interaction.
  * 
@@ -27,18 +30,53 @@ import com.jme3.app.state.AbstractAppState;
  *
  * @author Piotr SQLek Skólski
  */
-public class GsPlayer extends AbstractAppState {
+public class GsPlayer extends AbstractAppState implements PlayerListener {
     
-    public static final int CONTROL_WASD = 0;
-    public static final int CONTROL_ARRWOS = 1;
-    public static final int CONTROL_MOUSE = 2;
-    public static final int CONTROL_PAD0 = 3;
-    public static final int CONTROL_PAD1 = 4;
+    private final Camera camera;
+    private final GsGame gsGame;
+    private final Pony player;
     
-    private final int controlType;
-    
-    public GsPlayer() {
-        controlType = CONTROL_WASD;
+    public GsPlayer(Camera camera, GsGame gsGame, boolean first) {
+        this.camera = camera;
+        this.gsGame = gsGame;
+        player = new Pony(first? "PlayerA": "PlayerB");
     }
+    
+    @Override
+    public void initialize(AppStateManager sManager, Application app) {
+        player.init(app.getAssetManager());
+    }
+
+    @Override
+    public void makeAction(float fpf) {
+        
+    }
+
+    @Override
+    public void makeLeft(float fpf) {
+        
+    }
+
+    @Override
+    public void makeRight(float fpf) {
+        
+    }
+
+    @Override
+    public void makeUp(float fpf) {
+        
+    }
+
+    @Override
+    public void makeDown(float fpf) {
+        
+    }
+
+    @Override
+    public float tickTime() {
+        return 0;
+    }
+    
+    
     
 }

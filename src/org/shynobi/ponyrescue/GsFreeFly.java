@@ -52,7 +52,7 @@ public class GsFreeFly extends AbstractAppState {
         
         
         float height = (heightNoise.value(time/8)+1)*13+2;
-        float angle = (angleNoise.value(time/8)+1)/2;
+        float angle = angleNoise.value(time/8);
         float distance = gsGame.freeFlyDistance(angle, height);
         
         cam.setLocation(new Vector3f(

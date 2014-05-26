@@ -28,6 +28,8 @@ import com.jme3.audio.AudioNode;
 import com.jme3.collision.CollisionResults;
 import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh;
+import com.jme3.font.BitmapFont;
+import com.jme3.font.BitmapText;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -67,14 +69,20 @@ public class GsFire extends AbstractAppState {
     private AssetManager aManager;
     private Node windows;
     private Node rootNode;
+    private Node guiNode;
     
     private int deaths = 0;
+    private int score = 0;
+    
+    private BitmapFont font;
+    private BitmapText scoreText;
     
     @Override
     public void initialize(AppStateManager sManager, Application app) {
         super.initialize(sManager,app);
         aManager = app.getAssetManager();
         rootNode = ((SimpleApplication)app).getRootNode();
+        guiNode = ((SimpleApplication)app).getGuiNode();
         
         Material fireMat = new Material(aManager,
                 "Common/MatDefs/Misc/Particle.j3md");
@@ -85,6 +93,8 @@ public class GsFire extends AbstractAppState {
                 "Common/MatDefs/Misc/Particle.j3md");
         cloudMat.setTexture("Texture", aManager.loadTexture(
                 "Particles/Cloud.png"));
+        
+        font = aManager.loadFont("Fonts/CelestiaRedux.fnt");
         
         windows = sManager.getState(GsGame.class).getWindows();
         windowNodes = new WindowNode[windows.getQuantity()];
@@ -168,7 +178,20 @@ public class GsFire extends AbstractAppState {
         for (int i = 0; i < windowNodes.length; ++i) {
             windowNodes[i].fireEmiter.setEnabled(enabled);
             windowNodes[i].cloudEmiter.setEnabled(enabled);
-            
+        }
+        if (enabled) {
+            if (scoreText != null)
+                guiNode.detachChild(scoreText);
+            scoreText = new BitmapText(font);
+            scoreText.setSize(font.getCharSet().getRenderedSize());      // font size
+            scoreText.setColor(ColorRGBA.Orange);                             // font color
+            scoreText.setText("Rescued: "+score);             // the text
+            scoreText.setLocalTranslation(30, 30+scoreText.getLineHeight(), 0); // position
+            guiNode.attachChild(scoreText);
+        }
+        else {
+            if (scoreText != null)
+                guiNode.detachChild(scoreText);
         }
     }
     
@@ -207,19 +230,30 @@ public class GsFire extends AbstractAppState {
         }
         Geometry hit = collisions.getClosestCollision().getGeometry();
         for (WindowNode node: windowNodes) {
-            if (hit.getParent().equals(node.window))
-                updateScore(node);
+            if (hit.getParent().equals(node.window)) {
+                rootNode.detachChild(node.pony);
+                score++;
+                updateScore();
+                return;
+            }
         }
-        System.err.println("Uratowano nie kuca O.o "+hit.getName());
+        //System.err.println("Uratowano nie kuca O.o "+hit.getName());
     }
     
     private void updateDeaths() {
-        System.err.println("Zdech kuc.");
+        //System.err.println("Zdech kuc.");
     }
     
-    private void updateScore(WindowNode node) {
-        System.err.println("Kuc uratowany.");
-        rootNode.detachChild(node.pony);
+    private void updateScore() {
+        //System.err.println("Kuc uratowany.");
+        if (scoreText != null)
+            guiNode.detachChild(scoreText);
+        scoreText = new BitmapText(font);
+        scoreText.setSize(font.getCharSet().getRenderedSize());      // font size
+        scoreText.setColor(ColorRGBA.Orange);                             // font color
+        scoreText.setText("Score: "+score);             // the text
+        scoreText.setLocalTranslation(30, 30+scoreText.getLineHeight(), 0); // position
+        guiNode.attachChild(scoreText);
     }
     
 }

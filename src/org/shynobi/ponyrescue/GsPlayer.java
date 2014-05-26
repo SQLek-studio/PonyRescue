@@ -69,8 +69,7 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
     
     @Override
     public void initialize(AppStateManager sManager, Application app) {
-        player = Pony.create(isFirstPlayer? FIRST_PLAYER: SECOND_PLAYER,
-                app.getAssetManager());
+        player = Pony.createPlayer(app.getAssetManager());
         rootNode = ((SimpleApplication)app).getRootNode();
         rootNode.attachChild(player);
         sManager.getState(GsFreeFly.class).setEnabled(false);

@@ -72,4 +72,45 @@ public class Pony extends Node {
         return pony;
     }
     
+    public static Pony createPlayer(AssetManager aManager) {
+        Pony pony = new Pony("Player");
+        
+        Material bodyM = aManager.loadMaterial("Materials/PonyBody.j3m");
+        Material eyesM = aManager.loadMaterial("Materials/PonyEyes.j3m");
+        Material maneBackM = aManager.loadMaterial("Materials/PonyManeBack.j3m");
+        Material ManeFrontM = aManager.loadMaterial("Materials/PonyManeFront.j3m");
+        Material tailM = aManager.loadMaterial("Materials/PonyTail.j3m");
+        Material wingsM = aManager.loadMaterial("Materials/PonyWings.j3m");
+        
+        Spatial body = aManager.loadModel("Models/PonyBody.j3o");
+        Spatial eyes = aManager.loadModel("Models/PonyEyes.j3o");
+        Spatial maneBack = aManager.loadModel("Models/PonyManeBack.j3o");
+        Spatial maneFront = aManager.loadModel("Models/PonyManeFront.j3o");
+        Spatial tail = aManager.loadModel("Models/PonyTail.j3o");
+        Spatial wings = aManager.loadModel("Models/PonyWings.j3o");
+        
+        body.setMaterial(bodyM);
+        eyes.setMaterial(eyesM);
+        maneBack.setMaterial(maneBackM);
+        maneFront.setMaterial(ManeFrontM);
+        tail.setMaterial(tailM);
+        wings.setMaterial(wingsM);
+        
+        body.setLocalScale(0.25f);
+        eyes.setLocalScale(0.25f);
+        maneBack.setLocalScale(0.25f);
+        maneFront.setLocalScale(0.25f);
+        tail.setLocalScale(0.25f);
+        wings.setLocalScale(0.25f);
+        
+        pony.attachChild(body);
+        pony.attachChild(eyes);
+        pony.attachChild(maneBack);
+        pony.attachChild(maneFront);
+        pony.attachChild(tail);
+        pony.attachChild(wings);
+        
+        return pony;
+    }
+    
 }

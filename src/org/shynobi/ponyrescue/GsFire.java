@@ -199,7 +199,7 @@ public class GsFire extends AbstractAppState {
     public void userClicked(float angle, float height) {
         collisions.clear();
         Ray ray = new Ray(
-                new Vector3f(0,height,0),
+                new Vector3f(-5,height,-5),
                 new Vector3f(getCircleX(angle,1),0,getCircleZ(angle,1)));
         windows.collideWith(ray, collisions);
         if (collisions.size() <= 0) {

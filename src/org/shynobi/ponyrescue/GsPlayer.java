@@ -129,19 +129,19 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
         float distance = gsGame.freeFlyDistance(angle, height);
         
         player.setLocalTranslation(
-                GsGame.getCircleX(angle, distance),
+                GsGame.getCircleX(angle, distance)-5,
                 height,
-                GsGame.getCircleZ(angle, distance));
+                GsGame.getCircleZ(angle, distance)-5);
         
         player.setLocalRotation(new Quaternion().fromAngleAxis(
                 (-angle+0.375f)*FastMath.TWO_PI,
                 Vector3f.UNIT_Y));
         
         camera.setLocation(new Vector3f(
-                GsGame.getCircleX(angle, distance+8),
+                GsGame.getCircleX(angle, distance+8)-5,
                 height,
-                GsGame.getCircleZ(angle, distance+8)));
+                GsGame.getCircleZ(angle, distance+8)-5));
         
-        camera.lookAt(new Vector3f(0,height,0), Vector3f.UNIT_Y);
+        camera.lookAt(new Vector3f(-5,height,-5), Vector3f.UNIT_Y);
     }
 }

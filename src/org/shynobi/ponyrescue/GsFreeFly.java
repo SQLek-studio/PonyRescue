@@ -56,10 +56,10 @@ public class GsFreeFly extends AbstractAppState {
         float distance = gsGame.freeFlyDistance(angle, height);
         
         cam.setLocation(new Vector3f(
-                GsGame.getCircleX(angle, distance+8),
+                GsGame.getCircleX(angle, distance+8)-5,
                 height,
-                GsGame.getCircleZ(angle, distance+8)));
-        cam.lookAt(new Vector3f(0,height,0), Vector3f.UNIT_Y);
+                GsGame.getCircleZ(angle, distance+8)-5));
+        cam.lookAt(new Vector3f(-5,height,-5), Vector3f.UNIT_Y);
         //System.err.println(height);
     }
     

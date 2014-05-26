@@ -47,11 +47,12 @@ import static org.shynobi.ponyrescue.GsGame.getCircleZ;
  *
  * @author Piotr SQLek Skólski
  */
-public class GsFire extends AbstractAppState {
+public class GsFire extends AbstractAppState implements PlayerListener {
     
     private static final float PONY_LIFE_TIME = 60;
     private static final float PONY_CREATION_CHANCE = 120;
-    
+    private static final int GEMEPLAY_TIME = 120;
+
     private class WindowNode {
         Spatial window;
         Pony pony;
@@ -71,18 +72,30 @@ public class GsFire extends AbstractAppState {
     private Node rootNode;
     private Node guiNode;
     
+    private AppStateManager sManager;
+    
     private int deaths = 0;
     private int score = 0;
+    private int viewportWidth;
+    private int viewportHeight;
+    
+    private float time = 0;
     
     private BitmapFont font;
     private BitmapText scoreText;
+    private BitmapText timeText;
+    private BitmapText finalScoreText;
     
     @Override
     public void initialize(AppStateManager sManager, Application app) {
         super.initialize(sManager,app);
+        this.sManager = sManager;
         aManager = app.getAssetManager();
         rootNode = ((SimpleApplication)app).getRootNode();
         guiNode = ((SimpleApplication)app).getGuiNode();
+        
+        viewportWidth = app.getCamera().getWidth();
+        viewportHeight = app.getCamera().getHeight();
         
         Material fireMat = new Material(aManager,
                 "Common/MatDefs/Misc/Particle.j3md");
@@ -180,18 +193,15 @@ public class GsFire extends AbstractAppState {
             windowNodes[i].cloudEmiter.setEnabled(enabled);
         }
         if (enabled) {
-            if (scoreText != null)
-                guiNode.detachChild(scoreText);
-            scoreText = new BitmapText(font);
-            scoreText.setSize(font.getCharSet().getRenderedSize());      // font size
-            scoreText.setColor(ColorRGBA.Orange);                             // font color
-            scoreText.setText("Rescued: "+score);             // the text
-            scoreText.setLocalTranslation(30, 30+scoreText.getLineHeight(), 0); // position
-            guiNode.attachChild(scoreText);
+            time = GEMEPLAY_TIME;
+            updateScore();
+            updateTime();
         }
         else {
             if (scoreText != null)
                 guiNode.detachChild(scoreText);
+            if (timeText != null)
+                guiNode.detachChild(timeText);
         }
     }
     
@@ -201,6 +211,12 @@ public class GsFire extends AbstractAppState {
     public void update(float tpf) {
         if (!isEnabled())
             return;
+        if (finalScoreText != null)
+            return;
+        time -= tpf;
+        if (time <= 0)
+            displayFinalScore();
+        updateTime();
         for (WindowNode windowNode: windowNodes) {
             if (rootNode.hasChild(windowNode.pony))
                 windowNode.life -= tpf;
@@ -254,6 +270,67 @@ public class GsFire extends AbstractAppState {
         scoreText.setText("Score: "+score);             // the text
         scoreText.setLocalTranslation(30, 30+scoreText.getLineHeight(), 0); // position
         guiNode.attachChild(scoreText);
+    }
+    
+    private void updateTime() {
+        //System.err.println("Kuc uratowany.");
+        if (timeText != null)
+            guiNode.detachChild(timeText);
+        
+        int secondsLeft = (int)FastMath.ceil(time);
+        int minutesLeft = secondsLeft / 60;
+        secondsLeft %= 60;
+        
+        timeText = new BitmapText(font);
+        timeText.setSize(font.getCharSet().getRenderedSize());      // font size
+        timeText.setColor(ColorRGBA.Red);                             // font color
+        timeText.setText(minutesLeft+":"+secondsLeft);             // the text
+        timeText.setLocalTranslation(viewportWidth-30-timeText.getLineWidth(), 30+timeText.getLineHeight(), 0); // position
+        guiNode.attachChild(timeText);
+    }
+    
+    private void displayFinalScore() {
+        if (scoreText != null)
+            guiNode.detachChild(scoreText);
+        if (timeText != null)
+            guiNode.detachChild(timeText);
+        finalScoreText = new BitmapText(font);
+        finalScoreText.setSize(font.getCharSet().getRenderedSize()*2);      // font size
+        finalScoreText.setColor(ColorRGBA.Yellow);                             // font color
+        finalScoreText.setText("Score: "+score);             // the text
+        finalScoreText.setLocalTranslation((viewportWidth-timeText.getLineWidth())/2, (viewportHeight-timeText.getLineHeight())/2, 0); // position
+        guiNode.attachChild(finalScoreText);
+        
+    }
+    
+    @Override
+    public void makeAction(float fpf) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void makeLeft(float fpf) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void makeRight(float fpf) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void makeUp(float fpf) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void makeDown(float fpf) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public float tickTime() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -37,7 +37,7 @@ import com.jme3.scene.Node;
  */
 public class GsPlayer extends AbstractAppState implements PlayerListener {
     
-    public final static float HEIGHT_INCREMENT = 0.5f;
+    public final static float HEIGHT_INCREMENT = 0.25f;
     public final static float HEIGHT_FALLOF = 0.1f;
     public final static float POSITION_INCREMENT = 0.1f;
     

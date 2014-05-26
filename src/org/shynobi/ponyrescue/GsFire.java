@@ -52,6 +52,7 @@ public class GsFire extends AbstractAppState implements PlayerListener {
     private static final float PONY_LIFE_TIME = 60;
     private static final float PONY_CREATION_CHANCE = 120;
     private static final int GEMEPLAY_TIME = 120;
+    private static final int FINISH_COLDOWN = 10;
 
     private class WindowNode {
         Spatial window;
@@ -80,11 +81,13 @@ public class GsFire extends AbstractAppState implements PlayerListener {
     private int viewportHeight;
     
     private float time = 0;
+    private float coldown = 0;
     
     private BitmapFont font;
     private BitmapText scoreText;
     private BitmapText timeText;
     private BitmapText finalScoreText;
+    private BitmapText helpText;
     
     @Override
     public void initialize(AppStateManager sManager, Application app) {
@@ -196,12 +199,22 @@ public class GsFire extends AbstractAppState implements PlayerListener {
             time = GEMEPLAY_TIME;
             updateScore();
             updateTime();
+            helpText = new BitmapText(font);
+            helpText.setSize(font.getCharSet().getRenderedSize());      // font size
+            helpText.setColor(ColorRGBA.White);                             // font color
+            helpText.setText("A,D movement\nW pick pony\nSPACE fly up");             // the text
+            helpText.setLocalTranslation(10, viewportHeight-10, 0); // position
+            guiNode.attachChild(helpText);
         }
         else {
             if (scoreText != null)
                 guiNode.detachChild(scoreText);
             if (timeText != null)
                 guiNode.detachChild(timeText);
+            if (helpText != null)
+                guiNode.detachChild(helpText);
+            if (finalScoreText != null)
+                guiNode.detachChild(finalScoreText);
         }
     }
     
@@ -211,8 +224,10 @@ public class GsFire extends AbstractAppState implements PlayerListener {
     public void update(float tpf) {
         if (!isEnabled())
             return;
-        if (finalScoreText != null)
+        if (finalScoreText != null) {
+            coldown = Math.max(coldown-tpf, 0);
             return;
+        }
         time -= tpf;
         if (time <= 0)
             displayFinalScore();
@@ -284,7 +299,10 @@ public class GsFire extends AbstractAppState implements PlayerListener {
         timeText = new BitmapText(font);
         timeText.setSize(font.getCharSet().getRenderedSize());      // font size
         timeText.setColor(ColorRGBA.Red);                             // font color
-        timeText.setText(minutesLeft+":"+secondsLeft);             // the text
+        if (secondsLeft < 10)
+            timeText.setText(minutesLeft+":0"+secondsLeft);
+        else
+            timeText.setText(minutesLeft+":"+secondsLeft);
         timeText.setLocalTranslation(viewportWidth-30-timeText.getLineWidth(), 30+timeText.getLineHeight(), 0); // position
         guiNode.attachChild(timeText);
     }
@@ -298,39 +316,58 @@ public class GsFire extends AbstractAppState implements PlayerListener {
         finalScoreText.setSize(font.getCharSet().getRenderedSize()*2);      // font size
         finalScoreText.setColor(ColorRGBA.Yellow);                             // font color
         finalScoreText.setText("Score: "+score);             // the text
-        finalScoreText.setLocalTranslation((viewportWidth-timeText.getLineWidth())/2, (viewportHeight-timeText.getLineHeight())/2, 0); // position
+        finalScoreText.setLocalTranslation(
+                (viewportWidth-finalScoreText.getLineWidth())/2,
+                (viewportHeight+finalScoreText.getLineHeight())/2,
+                0); // position
         guiNode.attachChild(finalScoreText);
-        
+        sManager.getState(GsInputHandling.class).setWasdListener(this);
+        sManager.getState(GsInputHandling.class).setArrowsListener(this);
+        sManager.getState(GsFreeFly.class).setEnabled(true);
+        coldown = FINISH_COLDOWN;
     }
     
     @Override
     public void makeAction(float fpf) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (coldown > 0)
+            return;
+        sManager.getState(GsFreeFly.class).setEnabled(false);
+        sManager.getState(GsInputHandling.class).setWasdListener(sManager.getState(GsPlayer.class));
+        sManager.getState(GsInputHandling.class).setArrowsListener(sManager.getState(GsPlayer.class));
+        if (finalScoreText != null)
+            guiNode.detachChild(finalScoreText);
+        finalScoreText = null;
+        time = GEMEPLAY_TIME;
+        score = 0;
     }
 
     @Override
     public void makeLeft(float fpf) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        gotoMainMenu();
     }
 
     @Override
     public void makeRight(float fpf) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        gotoMainMenu();
     }
 
     @Override
     public void makeUp(float fpf) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        gotoMainMenu();
     }
 
     @Override
     public void makeDown(float fpf) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        gotoMainMenu();
     }
 
+    private void gotoMainMenu() {
+        
+    }
+    
     @Override
     public float tickTime() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 1;
     }
     
 }

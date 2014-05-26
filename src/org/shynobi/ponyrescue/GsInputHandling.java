@@ -61,9 +61,6 @@ public class GsInputHandling extends AbstractAppState {
     public void update(float tpf) {
         super.update(tpf);
         if (isEnabled() && wasdListener != null) {
-            float tickTime = wasdListener.tickTime();
-            //if tick <= 0 fall back to calling listener every run
-            
             
             if (wActive)
                 wasdListener.makeUp(tpf);

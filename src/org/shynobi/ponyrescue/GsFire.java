@@ -41,6 +41,8 @@ import com.jme3.scene.Spatial;
  */
 public class GsFire extends AbstractAppState {
     
+    private static final float PONY_LIFE_TIME = 30;
+    
     private class WindowNode {
         Spatial window;
         Pony pony;
@@ -48,6 +50,7 @@ public class GsFire extends AbstractAppState {
         ParticleEmitter fireEmiter;
         AudioNode audioNode;
         Vector3f ponySpawn;
+        float life = PONY_LIFE_TIME;
     }
     
     private WindowNode[] windowNodes;
@@ -115,7 +118,7 @@ public class GsFire extends AbstractAppState {
             windowNodes[i].fireEmiter.setEndColor(new ColorRGBA(0.8f, 0.4f, 0.4f, 0.5f));
             windowNodes[i].fireEmiter.setStartSize(1.5f);
             windowNodes[i].fireEmiter.setEndSize(0.1f);
-            windowNodes[i].fireEmiter.setEnabled(true);
+            windowNodes[i].fireEmiter.setEnabled(false);
             windowNodes[i].fireEmiter.setLowLife(1f);
             windowNodes[i].fireEmiter.setHighLife(1.6f);
             windowNodes[i].fireEmiter.getParticleInfluencer().setVelocityVariation(0.2f);
@@ -129,7 +132,7 @@ public class GsFire extends AbstractAppState {
             windowNodes[i].cloudEmiter.setStartColor(new ColorRGBA(0.8f, 0.8f, 0.8f, 0.8f));
             windowNodes[i].cloudEmiter.setEndColor(new ColorRGBA(1f, 1f, 1f, 0.5f));
             windowNodes[i].cloudEmiter.getParticleInfluencer().setVelocityVariation(0.2f);
-            windowNodes[i].cloudEmiter.setEnabled(true);
+            windowNodes[i].cloudEmiter.setEnabled(false);
             rootNode.attachChild(windowNodes[i].cloudEmiter);
             
             windowNodes[i].pony = Pony.create("Pony"+i, aManager);
@@ -138,10 +141,20 @@ public class GsFire extends AbstractAppState {
                 angle*FastMath.PI,
                 Vector3f.UNIT_Y));
         
-            rootNode.attachChild(windowNodes[i].pony);
+            //rootNode.attachChild(windowNodes[i].pony);
             
             //Xinef: audio loading here
             //windowNodes[i].audioNode = ???
+            
+        }
+    }
+    
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        for (int i = 0; i < windowNodes.length; ++i) {
+            windowNodes[i].fireEmiter.setEnabled(enabled);
+            windowNodes[i].cloudEmiter.setEnabled(enabled);
             
         }
     }
@@ -151,6 +164,10 @@ public class GsFire extends AbstractAppState {
         if (!isEnabled())
             return;
         //fire logic go here
+    }
+    
+    public void userClicked(float angle, float height) {
+        System.err.printf("Clicked %f %f%n", angle, height);
     }
     
 }

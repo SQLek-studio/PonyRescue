@@ -46,6 +46,7 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
     
     private final Camera camera;
     private final GsGame gsGame;
+    private GsFire gsFire;
     private final boolean isFirstPlayer;
     private Pony player;
     
@@ -73,6 +74,7 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
         rootNode = ((SimpleApplication)app).getRootNode();
         rootNode.attachChild(player);
         sManager.getState(GsFreeFly.class).setEnabled(false);
+        gsFire = sManager.getState(GsFire.class);
         movePonyCamera();
         setEnabled(true);
     }
@@ -107,7 +109,7 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
 
     @Override
     public void makeUp(float fpf) {
-        
+        gsFire.userClicked(angle, height);
     }
 
     @Override

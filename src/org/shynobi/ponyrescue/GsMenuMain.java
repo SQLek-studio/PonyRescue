@@ -208,6 +208,7 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
         //here place for GsFire
         
         setEnabled(false);
+        sManager.getState(GsFire.class).setEnabled(true);
         reactivateButtons();
     }
     
@@ -226,6 +227,7 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
         //here place for GsFire
         
         setEnabled(false);
+        sManager.getState(GsFire.class).setEnabled(true);
         reactivateButtons();
     }
     

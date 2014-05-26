@@ -97,6 +97,7 @@ public class Game extends SimpleApplication {
         Game game = new Game(
                 new GsGame(),
                 new GsMenuMain(),
+                new GsFire(),
                 new GsFreeFly(),
                 new GsInputHandling(),
                 new StatsAppState());

@@ -20,11 +20,16 @@
 package org.shynobi.ponyrescue;
 
 import com.jme3.app.Application;
+import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioNode;
 import com.jme3.effect.ParticleEmitter;
+import com.jme3.effect.ParticleMesh;
+import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
@@ -40,16 +45,29 @@ public class GsFire extends AbstractAppState {
         ParticleEmitter cloudEmiter;
         ParticleEmitter fireEmiter;
         AudioNode audioNode;
+        Vector3f ponySpawn;
     }
     
     private WindowNode[] windowNodes;
     private AssetManager aManager;
     private Node windows;
+    private Node rootNode;
     
     @Override
     public void initialize(AppStateManager sManager, Application app) {
         super.initialize(sManager,app);
         aManager = app.getAssetManager();
+        rootNode = ((SimpleApplication)app).getRootNode();
+        
+        Material fireMat = new Material(aManager,
+                "Common/MatDefs/Misc/Particle.j3md");
+        fireMat.setTexture("Texture", aManager.loadTexture(
+                "Particles/Fire.png"));
+        
+        Material cloudMat = new Material(aManager,
+                "Common/MatDefs/Misc/Particle.j3md");
+        cloudMat.setTexture("Texture", aManager.loadTexture(
+                "Particles/Cloud.png"));
         
         windows = sManager.getState(GsGame.class).getWindows();
         windowNodes = new WindowNode[windows.getQuantity()];
@@ -57,13 +75,66 @@ public class GsFire extends AbstractAppState {
             windowNodes[i] = new WindowNode();
             windowNodes[i].window = windows.getChild(i);
             
+            Vector3f facing = Vector3f.ZERO;
+            Vector3f lower = windowNodes[i].window.getLocalTranslation()
+                    .add(0, -2.7f, 0);
+            windowNodes[i].ponySpawn = windowNodes[i].window.getLocalTranslation();
             
+            if (windowNodes[i].window.getName().startsWith("Window_North")){
+                lower.addLocal(0, 0, -0.22f);
+                windowNodes[i].ponySpawn = windowNodes[i].ponySpawn.add(0, 0, 1);
+                facing = Vector3f.UNIT_Z.negate();
+            }
+            /*
+            if (windowNodes[i].window.getName().startsWith("Window_South")){
+                lowerLeft.addLocal(-1, 0, 1);
+                lowerRight.addLocal(1, 0, 1);
+                windowNodes[i].ponySpawn.addLocal(0, 0, -1);
+            }
+            
+            if (windowNodes[i].window.getName().startsWith("Window_North")){
+                lowerLeft.addLocal(-1, 0, 1);
+                lowerRight.addLocal(1, 0, 1);
+                windowNodes[i].ponySpawn.addLocal(0, 0, -1);
+            }
+            
+            if (windowNodes[i].window.getName().startsWith("Window_North")){
+                lowerLeft.addLocal(-1, 0, 1);
+                lowerRight.addLocal(1, 0, 1);
+                windowNodes[i].ponySpawn.addLocal(0, 0, -1);
+            }
+            */
+            windowNodes[i].fireEmiter = new ParticleEmitter("Fire"+i,
+                    ParticleMesh.Type.Triangle, 2);
+            windowNodes[i].fireEmiter.setMaterial(fireMat);
+            windowNodes[i].fireEmiter.setLocalTranslation(lower);
+            windowNodes[i].fireEmiter.setGravity(0, -0.25f, 0);
+            windowNodes[i].fireEmiter.setStartColor(new ColorRGBA(0.8f, 0.8f, 0.8f, 0.8f));
+            windowNodes[i].fireEmiter.setEndColor(new ColorRGBA(0.8f, 0.4f, 0.4f, 0.5f));
+            windowNodes[i].fireEmiter.setStartSize(1.5f);
+            windowNodes[i].fireEmiter.setEndSize(0.1f);
+            windowNodes[i].fireEmiter.setEnabled(false);
+            rootNode.attachChild(windowNodes[i].fireEmiter);
+            
+            windowNodes[i].cloudEmiter = new ParticleEmitter("Cloud"+i,
+                    ParticleMesh.Type.Triangle, 6);
+            windowNodes[i].cloudEmiter.setMaterial(cloudMat);
+            windowNodes[i].cloudEmiter.setLocalTranslation(lower);
+            windowNodes[i].cloudEmiter.setGravity(0, -0.25f, 0);
+            windowNodes[i].cloudEmiter.setStartColor(new ColorRGBA(0.8f, 0.8f, 0.8f, 0.8f));
+            windowNodes[i].cloudEmiter.setEndColor(new ColorRGBA(1f, 1f, 1f, 0.5f));
+            windowNodes[i].cloudEmiter.getParticleInfluencer().setVelocityVariation(0.2f);
+            windowNodes[i].cloudEmiter.setFaceNormal(facing);
+            rootNode.attachChild(windowNodes[i].cloudEmiter);
+            
+            windowNodes[i].pony = Pony.create("Pony"+i, aManager);
+            windowNodes[i].pony.setLocalTranslation(windowNodes[i].ponySpawn);
+            rootNode.attachChild(windowNodes[i].pony);
             
             //Xinef: audio loading here
             //windowNodes[i].audioNode = ???
             
         }
-        setEnabled(true);
     }
     
     @Override

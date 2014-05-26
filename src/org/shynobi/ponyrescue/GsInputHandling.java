@@ -46,11 +46,6 @@ public class GsInputHandling extends AbstractAppState {
     private boolean downActive = false;
     private boolean rightActive = false;
     private boolean enterActive = false;
-    private float wTick = 0;
-    private float aTick = 0;
-    private float sTick = 0;
-    private float dTick = 0;
-    private float spaceTick = 0;
 
     public void setWasdListener(PlayerListener listener) {
         wasdListener = listener;
@@ -71,36 +66,16 @@ public class GsInputHandling extends AbstractAppState {
             
             
             if (wActive)
-                wTick += tpf;
+                wasdListener.makeUp(tpf);
             if (aActive)
-                aTick += tpf;
+                wasdListener.makeLeft(tpf);
             if (sActive)
-                sTick += tpf;
+                wasdListener.makeDown(tpf);
             if (dActive)
-                dTick += tpf;
+                wasdListener.makeRight(tpf);
             if (spaceActive)
-                spaceTick += tpf;
+                wasdListener.makeAction(tpf);
             
-            while (wTick > tickTime) {
-                wTick -= tickTime;
-                wasdListener.makeUp(0);
-            }
-            while (aTick > tickTime) {
-                aTick -= tickTime;
-                wasdListener.makeLeft(0);
-            }
-            while (sTick > tickTime) {
-                sTick -= tickTime;
-                wasdListener.makeDown(0);
-            }
-            while (dTick > tickTime) {
-                dTick -= tickTime;
-                wasdListener.makeRight(0);
-            }
-            while (spaceTick > tickTime) {
-                spaceTick -= tickTime;
-                wasdListener.makeAction(0);
-            }
         }
         //copy paste second player
     }
@@ -126,18 +101,40 @@ public class GsInputHandling extends AbstractAppState {
             @Override
         public void onAction(String name, boolean keyPressed, float tpf) {
                 wActive = keyPressed;
+                if (keyPressed)
+                    wasdListener.makeUp(tpf);
             }
         }, "W");
         inputManager.addListener(new ActionListener() {
             @Override
         public void onAction(String name, boolean keyPressed, float tpf) {
+                aActive = keyPressed;
+                if (keyPressed)
+                    wasdListener.makeLeft(tpf);
+            }
+        }, "A");
+        inputManager.addListener(new ActionListener() {
+            @Override
+        public void onAction(String name, boolean keyPressed, float tpf) {
                 sActive = keyPressed;
+                if (keyPressed)
+                    wasdListener.makeDown(tpf);
             }
         }, "S");
         inputManager.addListener(new ActionListener() {
             @Override
         public void onAction(String name, boolean keyPressed, float tpf) {
+                dActive = keyPressed;
+                if (keyPressed)
+                    wasdListener.makeRight(tpf);
+            }
+        }, "D");
+        inputManager.addListener(new ActionListener() {
+            @Override
+        public void onAction(String name, boolean keyPressed, float tpf) {
                 spaceActive = keyPressed;
+                if (keyPressed)
+                    wasdListener.makeAction(tpf);
             }
         }, "ACTION1");
         inputManager.setCursorVisible(false);

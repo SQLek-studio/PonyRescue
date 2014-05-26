@@ -37,9 +37,9 @@ import com.jme3.scene.Node;
  */
 public class GsPlayer extends AbstractAppState implements PlayerListener {
     
-    public final static float HEIGHT_INCREMENT = 1f;
-    public final static float HEIGHT_FALLOF = 0.05f;
-    public final static float POSITION_INCREMENT = 0.05f;
+    public final static float HEIGHT_INCREMENT = 0.5f;
+    public final static float HEIGHT_FALLOF = 0.1f;
+    public final static float POSITION_INCREMENT = 0.1f;
     
     public final static String FIRST_PLAYER = "PlayerA";
     public final static String SECOND_PLAYER = "PlayerA";
@@ -95,13 +95,13 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
     
     @Override
     public void makeLeft(float fpf) {
-        angle -= POSITION_INCREMENT*fpf;
+        angle += POSITION_INCREMENT*fpf;
         movePonyCamera();
     }
 
     @Override
     public void makeRight(float fpf) {
-        angle += POSITION_INCREMENT*fpf;
+        angle -= POSITION_INCREMENT*fpf;
         movePonyCamera();
     }
 
@@ -132,7 +132,7 @@ public class GsPlayer extends AbstractAppState implements PlayerListener {
                 GsGame.getCircleZ(angle, distance));
         
         player.setLocalRotation(new Quaternion().fromAngleAxis(
-                (angle+0.375f)*FastMath.TWO_PI,
+                (-angle+0.375f)*FastMath.TWO_PI,
                 Vector3f.UNIT_Y));
         
         camera.setLocation(new Vector3f(

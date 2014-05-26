@@ -25,15 +25,21 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioNode;
+import com.jme3.collision.CollisionResults;
 import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.util.Random;
+import static org.shynobi.ponyrescue.GsGame.getCircleX;
+import static org.shynobi.ponyrescue.GsGame.getCircleZ;
 
 /**
  *
@@ -42,6 +48,7 @@ import com.jme3.scene.Spatial;
 public class GsFire extends AbstractAppState {
     
     private static final float PONY_LIFE_TIME = 30;
+    private static final float PONY_CREATION_CHANCE = 120;
     
     private class WindowNode {
         Spatial window;
@@ -53,10 +60,15 @@ public class GsFire extends AbstractAppState {
         float life = PONY_LIFE_TIME;
     }
     
+    private final CollisionResults collisions = new CollisionResults();
+    private final Random random = new Random();
+    
     private WindowNode[] windowNodes;
     private AssetManager aManager;
     private Node windows;
     private Node rootNode;
+    
+    private int deaths = 0;
     
     @Override
     public void initialize(AppStateManager sManager, Application app) {
@@ -159,15 +171,57 @@ public class GsFire extends AbstractAppState {
         }
     }
     
+    private float timeFromLastPony = 0;
+    
     @Override
     public void update(float tpf) {
         if (!isEnabled())
             return;
-        //fire logic go here
+        for (WindowNode windowNode: windowNodes) {
+            if (rootNode.hasChild(windowNode.pony))
+                windowNode.life -= tpf;
+            if (windowNode.life < 0) {
+                rootNode.detachChild(windowNode.pony);
+                deaths++;
+                updateDeaths();
+            }
+        }
+        timeFromLastPony += tpf;
+        if (random.nextFloat() < timeFromLastPony/PONY_CREATION_CHANCE) {
+            WindowNode node = windowNodes[random.nextInt(windowNodes.length)];
+            rootNode.attachChild(node.pony);
+            node.life = PONY_LIFE_TIME;
+            timeFromLastPony = 0;
+        }
     }
     
     public void userClicked(float angle, float height) {
         System.err.printf("Clicked %f %f%n", angle, height);
+        
+        collisions.clear();
+        Ray ray = new Ray(
+                new Vector3f(0,height,0),
+                new Vector3f(getCircleX(angle,1),0,getCircleZ(angle,1)));
+        windows.collideWith(ray, collisions);
+        if (collisions.size() <= 0) {
+            System.err.println("No hit");
+            return;
+        }
+        Geometry hit = collisions.getClosestCollision().getGeometry();
+        for (WindowNode node: windowNodes) {
+            if (hit.equals(node.window))
+                updateScore(node);
+        }
+        System.err.println("Uratowano nie kuca O.o "+hit.getName());
+    }
+    
+    private void updateDeaths() {
+        System.err.println("Zdech kuc.");
+    }
+    
+    private void updateScore(WindowNode node) {
+        System.err.println("Kuc uratowany.");
+        rootNode.detachChild(node.pony);
     }
     
 }

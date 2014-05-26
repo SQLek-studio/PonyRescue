@@ -47,7 +47,7 @@ import static org.shynobi.ponyrescue.GsGame.getCircleZ;
  */
 public class GsFire extends AbstractAppState {
     
-    private static final float PONY_LIFE_TIME = 30;
+    private static final float PONY_LIFE_TIME = 60;
     private static final float PONY_CREATION_CHANCE = 120;
     
     private class WindowNode {
@@ -159,6 +159,7 @@ public class GsFire extends AbstractAppState {
             //windowNodes[i].audioNode = ???
             
         }
+        setEnabled(false);
     }
     
     @Override
@@ -196,20 +197,17 @@ public class GsFire extends AbstractAppState {
     }
     
     public void userClicked(float angle, float height) {
-        System.err.printf("Clicked %f %f%n", angle, height);
-        
         collisions.clear();
         Ray ray = new Ray(
                 new Vector3f(0,height,0),
                 new Vector3f(getCircleX(angle,1),0,getCircleZ(angle,1)));
         windows.collideWith(ray, collisions);
         if (collisions.size() <= 0) {
-            System.err.println("No hit");
             return;
         }
         Geometry hit = collisions.getClosestCollision().getGeometry();
         for (WindowNode node: windowNodes) {
-            if (hit.equals(node.window))
+            if (hit.getParent().equals(node.window))
                 updateScore(node);
         }
         System.err.println("Uratowano nie kuca O.o "+hit.getName());

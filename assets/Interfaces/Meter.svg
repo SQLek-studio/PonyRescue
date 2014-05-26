@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64"
+   height="512"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.3 r12068 custom"
+   sodipodi:docname="Meter.svg"
+   inkscape:export-filename="/home/xinef/jmonkeyplatform/workspace/Assets/Particles/Meter.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient7257">
+      <stop
+         style="stop-color:#ff810f;stop-opacity:1"
+         offset="0"
+         id="stop7259" />
+      <stop
+         style="stop-color:#ff0f0f;stop-opacity:1"
+         offset="1"
+         id="stop7261" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient7257"
+       id="linearGradient7263"
+       x1="33.571426"
+       y1="22.714287"
+       x2="32.857143"
+       y2="464.14285"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.0059622"
+     inkscape:cx="69.318278"
+     inkscape:cy="267.93814"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="950"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-540.36218)">
+    <image
+       sodipodi:absref="/home/xinef/jmonkeyplatform/workspace/Assets/doWektorniecia/10407463_567432586703860_3611226282146961308_n.jpg"
+       y="312.95605"
+       x="-689.95331"
+       id="image7251"
+       xlink:href="file:///home/xinef/jmonkeyplatform/workspace/Assets/doWektorniecia/10407463_567432586703860_3611226282146961308_n.jpg"
+       height="960"
+       width="541" />
+    <path
+       style="fill:url(#linearGradient7263);fill-opacity:1;stroke:#b22b25;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:40;stroke-opacity:1"
+       d="M 31.78125 3.0625 C 22.529042 2.8399804 12.640585 12.119044 12.34375 24.03125 L 1.25 469.15625 C 0.82262791 486.307 13.907508 512.84396 32.5 511.65625 C 54.198688 510.27011 63.125104 486.35907 62.6875 468.96875 L 51.46875 24.03125 C 51.207694 13.656922 44.747263 3.045641 31.78125 3.0625 z M 30.53125 8.71875 C 30.735905 8.7078822 30.921011 8.7121078 31.125 8.71875 C 40.27284 8.70265 44.847069 18.83998 45.03125 28.75 L 52.9375 453.75 C 53.24624 470.36198 46.933954 493.20725 31.625 494.53125 C 18.507541 495.66585 9.2922285 470.32067 9.59375 453.9375 L 17.40625 28.75 C 17.609131 17.726526 24.186953 9.0556524 30.53125 8.71875 z "
+       transform="translate(0,540.36218)"
+       id="rect7254" />
+  </g>
+</svg>

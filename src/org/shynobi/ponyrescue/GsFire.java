@@ -29,6 +29,8 @@ import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -75,37 +77,37 @@ public class GsFire extends AbstractAppState {
             windowNodes[i] = new WindowNode();
             windowNodes[i].window = windows.getChild(i);
             
-            Vector3f facing = Vector3f.ZERO;
+            float angle = 0;
             Vector3f lower = windowNodes[i].window.getLocalTranslation()
                     .add(0, -2.7f, 0);
             windowNodes[i].ponySpawn = windowNodes[i].window.getLocalTranslation();
             
             if (windowNodes[i].window.getName().startsWith("Window_North")){
                 lower.addLocal(0, 0, -0.22f);
-                windowNodes[i].ponySpawn = windowNodes[i].ponySpawn.add(0, 0, 1);
-                facing = Vector3f.UNIT_Z.negate();
+                windowNodes[i].ponySpawn = windowNodes[i].ponySpawn.add(0, -0.1f, 0.32f);
+                angle = 1;
             }
-            /*
+            
             if (windowNodes[i].window.getName().startsWith("Window_South")){
-                lowerLeft.addLocal(-1, 0, 1);
-                lowerRight.addLocal(1, 0, 1);
-                windowNodes[i].ponySpawn.addLocal(0, 0, -1);
+                lower.addLocal(0, 0, 0.22f);
+                windowNodes[i].ponySpawn = windowNodes[i].ponySpawn.add(0, -0.1f, -0.32f);
+                angle = 0;
             }
             
-            if (windowNodes[i].window.getName().startsWith("Window_North")){
-                lowerLeft.addLocal(-1, 0, 1);
-                lowerRight.addLocal(1, 0, 1);
-                windowNodes[i].ponySpawn.addLocal(0, 0, -1);
+            if (windowNodes[i].window.getName().startsWith("Windows_East")){
+                lower.addLocal(0.22f, 0, 0);
+                windowNodes[i].ponySpawn = windowNodes[i].ponySpawn.add(-0.32f, -0.1f, 0);
+                angle = 0.5f;
             }
             
-            if (windowNodes[i].window.getName().startsWith("Window_North")){
-                lowerLeft.addLocal(-1, 0, 1);
-                lowerRight.addLocal(1, 0, 1);
-                windowNodes[i].ponySpawn.addLocal(0, 0, -1);
+            if (windowNodes[i].window.getName().startsWith("Window_West")){
+                lower.addLocal(-0.22f, 0, 0);
+                windowNodes[i].ponySpawn = windowNodes[i].ponySpawn.add(0.32f, -0.1f, 0);
+                angle = -0.5f;
             }
-            */
+            
             windowNodes[i].fireEmiter = new ParticleEmitter("Fire"+i,
-                    ParticleMesh.Type.Triangle, 2);
+                    ParticleMesh.Type.Triangle, 6);
             windowNodes[i].fireEmiter.setMaterial(fireMat);
             windowNodes[i].fireEmiter.setLocalTranslation(lower);
             windowNodes[i].fireEmiter.setGravity(0, -0.25f, 0);
@@ -113,7 +115,10 @@ public class GsFire extends AbstractAppState {
             windowNodes[i].fireEmiter.setEndColor(new ColorRGBA(0.8f, 0.4f, 0.4f, 0.5f));
             windowNodes[i].fireEmiter.setStartSize(1.5f);
             windowNodes[i].fireEmiter.setEndSize(0.1f);
-            windowNodes[i].fireEmiter.setEnabled(false);
+            windowNodes[i].fireEmiter.setEnabled(true);
+            windowNodes[i].fireEmiter.setLowLife(1f);
+            windowNodes[i].fireEmiter.setHighLife(1.6f);
+            windowNodes[i].fireEmiter.getParticleInfluencer().setVelocityVariation(0.2f);
             rootNode.attachChild(windowNodes[i].fireEmiter);
             
             windowNodes[i].cloudEmiter = new ParticleEmitter("Cloud"+i,
@@ -124,11 +129,15 @@ public class GsFire extends AbstractAppState {
             windowNodes[i].cloudEmiter.setStartColor(new ColorRGBA(0.8f, 0.8f, 0.8f, 0.8f));
             windowNodes[i].cloudEmiter.setEndColor(new ColorRGBA(1f, 1f, 1f, 0.5f));
             windowNodes[i].cloudEmiter.getParticleInfluencer().setVelocityVariation(0.2f);
-            windowNodes[i].cloudEmiter.setFaceNormal(facing);
+            windowNodes[i].cloudEmiter.setEnabled(true);
             rootNode.attachChild(windowNodes[i].cloudEmiter);
             
             windowNodes[i].pony = Pony.create("Pony"+i, aManager);
             windowNodes[i].pony.setLocalTranslation(windowNodes[i].ponySpawn);
+            windowNodes[i].pony.setLocalRotation(new Quaternion().fromAngleAxis(
+                angle*FastMath.PI,
+                Vector3f.UNIT_Y));
+        
             rootNode.attachChild(windowNodes[i].pony);
             
             //Xinef: audio loading here

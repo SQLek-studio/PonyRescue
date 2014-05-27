@@ -90,6 +90,8 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
     private Node buttonNode;
     private InputManager inputManager;
     private AppStateManager sManager;
+    
+    private Picture logo;
 
     @Override
     public void initialize(AppStateManager sManager, Application app) {
@@ -104,6 +106,12 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
         margin = (width - height) / 2;
         scale = height;
 
+        logo = new Picture("Logo");
+        logo.setImage(app.getAssetManager(),"Textures/Logo.png",true);
+        logo.setWidth(0.8f * scale);
+        logo.setHeight(0.4f * scale);
+        logo.setPosition(0.1f * scale + margin,0.6f * scale);
+        
         buttonNode = new Node();
 
         for (int i = 0; i < BUTTONS.length; ++i) {
@@ -148,6 +156,7 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
         if (!isEnabled()) {
             return;
         }
+        buttonNode.attachChild(logo);
         selectedButton = (selectedButton % BUTTONS.length + BUTTONS.length)
                 % BUTTONS.length;
         for (int i = 0; i < BUTTONS.length; ++i) {

@@ -164,6 +164,9 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
         if (selectedButton == 0) {
             gotoGameSingle();
         }
+        if (selectedButton == 2) {
+            gotoCredits();
+        }
         if (selectedButton == 3) {
             sApp.stop();
         }
@@ -231,5 +234,12 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
         reactivateButtons();
     }
     
+    private void gotoCredits() {
+        sManager.getState(GsInputHandling.class).setWasdListener(sManager.getState(GsMenuCredits.class));
+        sManager.getState(GsInputHandling.class).setArrowsListener(sManager.getState(GsMenuCredits.class));
+        setEnabled(false);
+        sManager.getState(GsMenuCredits.class).setEnabled(true);
+        reactivateButtons();
+    }
     
 }

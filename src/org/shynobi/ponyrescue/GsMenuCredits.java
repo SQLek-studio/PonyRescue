@@ -33,7 +33,7 @@ import com.jme3.ui.Picture;
  */
 public class GsMenuCredits extends AbstractAppState implements PlayerListener {
     
-    private final static int CREDITS_COLDOWN = 20;
+    private final static int CREDITS_COLDOWN = 2;
     
     private float coldown = 0;
     
@@ -77,13 +77,15 @@ public class GsMenuCredits extends AbstractAppState implements PlayerListener {
         if (!enabled)
             return;
         
+        coldown = CREDITS_COLDOWN;
         guiNode.attachChild(picture);
-        
+        System.err.println("W main menu");
     }
     
     private void gotoMainMenu() {
         if (coldown > 0)
             return;
+        System.err.println("wychodzę");
         if (picture != null)
             guiNode.detachChild(picture);
         sManager.getState(GsInputHandling.class).setWasdListener(sManager.getState(GsMenuMain.class));
@@ -107,6 +109,7 @@ public class GsMenuCredits extends AbstractAppState implements PlayerListener {
         picture.setWidth(width-20);
         picture.setHeight(height-20);
         picture.setPosition(10,10);
+        setEnabled(false);
     }
     
     @Override

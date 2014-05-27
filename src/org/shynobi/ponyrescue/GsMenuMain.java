@@ -39,6 +39,10 @@ import com.jme3.ui.Picture;
  */
 public class GsMenuMain extends AbstractAppState implements PlayerListener {
 
+    private static final int COLDOWN = 2;
+    
+    private float coldown = 0;
+    
     private static class Button {
 
         String name;
@@ -93,6 +97,17 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
     
     private Picture logo;
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (!enabled)
+            return;
+        
+        coldown = COLDOWN;
+        reactivateButtons();
+        System.err.println("Blee");
+    }
+    
     @Override
     public void initialize(AppStateManager sManager, Application app) {
         super.initialize(sManager, app);
@@ -170,6 +185,8 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
 
     @Override
     public void makeAction(float fpf) {
+        if (coldown > 0)
+            return;
         if (selectedButton == 0) {
             gotoGameSingle();
         }
@@ -210,6 +227,13 @@ public class GsMenuMain extends AbstractAppState implements PlayerListener {
         return 0.25f;
     }
 
+    @Override
+    public void update(float tpf) {
+        if (!isEnabled())
+            return;
+        coldown = Math.max(coldown-tpf, 0);
+    }
+    
     public void gotoGameSingle() {
         GsPlayer playerA = new GsPlayer(sApp.getCamera(),
                 sManager.getState(GsGame.class), true);

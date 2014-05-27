@@ -39,6 +39,7 @@ public class Game extends SimpleApplication {
     
     @Override
     public void simpleInitApp() {
+        settings.setTitle("PonyRescue by SQLek & Xinef");
         //Material material = new Material(assetManager, 
         //"Common/MatDefs/Misc/Unshaded.j3md");
         //groundMaterial.setColor("Color", ColorRGBA.Green);

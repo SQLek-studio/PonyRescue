@@ -362,7 +362,10 @@ public class GsFire extends AbstractAppState implements PlayerListener {
     }
 
     private void gotoMainMenu() {
-        
+        sManager.getState(GsInputHandling.class).setWasdListener(sManager.getState(GsMenuMain.class));
+        sManager.getState(GsInputHandling.class).setArrowsListener(sManager.getState(GsMenuMain.class));
+        setEnabled(false);
+        sManager.getState(GsMenuMain.class).setEnabled(true);
     }
     
     @Override
